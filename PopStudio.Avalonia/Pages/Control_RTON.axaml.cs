@@ -185,7 +185,9 @@ namespace PopStudio.Avalonia.Pages
                             {
                                 continue;
                             }
-                            string newPath = YFAPI.FormatPath(outFile + mfile[length..] + outFormat);
+                            string relativePath = mfile[length..];
+                            string baseFileName = Path.ChangeExtension(relativePath, null);
+                            string newPath = YFAPI.FormatPath(outFile + baseFileName + outFormat);
                             YFAPI.NewDir(newPath, false);
                             try
                             {
