@@ -444,6 +444,30 @@ namespace PopStudio.Image.Ptx
                             }
                         }
                         break;
+                    case PtxFormat.ASTC_44:
+                        using (YFBitmap sKBitmap = Texture.ASTC.Read(bs, head.width, head.height, 4))
+                        {
+                            sKBitmap.Save(outFile);
+                        }
+                        break;
+                    case PtxFormat.ASTC_55:
+                        using (YFBitmap sKBitmap = Texture.ASTC.Read(bs, head.width, head.height, 5))
+                        {
+                            sKBitmap.Save(outFile);
+                        }
+                        break;
+                    case PtxFormat.ASTC_66:
+                        using (YFBitmap sKBitmap = Texture.ASTC.Read(bs, head.width, head.height, 6))
+                        {
+                            sKBitmap.Save(outFile);
+                        }
+                        break;
+                    case PtxFormat.ASTC_88:
+                        using (YFBitmap sKBitmap = Texture.ASTC.Read(bs, head.width, head.height, 8))
+                        {
+                            sKBitmap.Save(outFile);
+                        }
+                        break;
                 }
             }
         }
