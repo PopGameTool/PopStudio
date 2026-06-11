@@ -293,6 +293,8 @@ namespace PopStudio.RTON
         {
             sw.WriteStartObject();
             byte[] tempstring;
+            HashSet<string> seenKeys = new HashSet<string>();
+
             while (true)
             {
                 //key
@@ -301,176 +303,237 @@ namespace PopStudio.RTON
                 {
                     break;
                 }
+
+                string currentKey = null;
+                bool isDuplicate = false;
+
+                // 读取key
                 switch (type)
                 {
                     case 0x2:
-                        sw.WritePropertyName(NULL);
+                        currentKey = Encoding.UTF8.GetString(NULL);
                         break;
                     case 0x81:
-                        sw.WritePropertyName(bs.ReadBytes(bs.ReadVarInt32()));
+                        currentKey = Encoding.UTF8.GetString(bs.ReadBytes(bs.ReadVarInt32()));
                         break;
                     case 0x82:
                         bs.ReadVarInt32();
-                        sw.WritePropertyName(bs.ReadBytes(bs.ReadVarInt32()));
+                        currentKey = Encoding.UTF8.GetString(bs.ReadBytes(bs.ReadVarInt32()));
                         break;
                     case 0x83:
-                        sw.WritePropertyName(ReadRTID(bs));
+                        currentKey = ReadRTID(bs);
                         break;
                     case 0x84:
-                        sw.WritePropertyName(RTID0);
+                        currentKey = Encoding.UTF8.GetString(RTID0);
                         break;
                     case 0x87:
-                        sw.WritePropertyName(ReadBinary(bs));
+                        currentKey = ReadBinary(bs);
                         break;
                     case 0x90:
                         tempstring = bs.ReadBytes(bs.ReadVarInt32());
                         R0x90List.Add(tempstring);
-                        sw.WritePropertyName(tempstring);
+                        currentKey = Encoding.UTF8.GetString(tempstring);
                         break;
                     case 0x91:
-                        sw.WritePropertyName(R0x90List[bs.ReadVarInt32()]);
+                        currentKey = Encoding.UTF8.GetString(R0x90List[bs.ReadVarInt32()]);
                         break;
                     case 0x92:
                         bs.ReadVarInt32();
                         tempstring = bs.ReadBytes(bs.ReadVarInt32());
                         R0x92List.Add(tempstring);
-                        sw.WritePropertyName(tempstring);
+                        currentKey = Encoding.UTF8.GetString(tempstring);
                         break;
                     case 0x93:
-                        sw.WritePropertyName(R0x92List[bs.ReadVarInt32()]);
+                        currentKey = Encoding.UTF8.GetString(R0x92List[bs.ReadVarInt32()]);
                         break;
                     default:
                         throw new Exception(Str.Obj.TypeMisMatch);
                 }
+
+                if (seenKeys.Contains(currentKey))
+                {
+                    isDuplicate = true;
+                }
+                else
+                {
+                    seenKeys.Add(currentKey);
+                    sw.WritePropertyName(currentKey);
+                }
+
                 //value
                 type = bs.ReadByte();
+
                 switch (type)
                 {
                     case 0x0:
-                        sw.WriteBooleanValue(false);
+                        if (!isDuplicate) sw.WriteBooleanValue(false);
                         break;
                     case 0x1:
-                        sw.WriteBooleanValue(true);
+                        if (!isDuplicate) sw.WriteBooleanValue(true);
                         break;
                     case 0x2:
-                        sw.WriteStringValue(NULL);
+                        if (!isDuplicate) sw.WriteStringValue(NULL);
                         break;
                     case 0x8:
-                        sw.WriteNumberValue(bs.ReadSByte());
+                        sbyte v8 = bs.ReadSByte();
+                        if (!isDuplicate) sw.WriteNumberValue(v8);
                         break;
                     case 0x9:
-                        sw.WriteNumberValue(0);
+                        if (!isDuplicate) sw.WriteNumberValue(0);
                         break;
                     case 0xA:
-                        sw.WriteNumberValue(bs.ReadByte());
+                        byte vA = bs.ReadByte();
+                        if (!isDuplicate) sw.WriteNumberValue(vA);
                         break;
                     case 0xB:
-                        sw.WriteNumberValue(0);
+                        if (!isDuplicate) sw.WriteNumberValue(0);
                         break;
                     case 0x10:
-                        sw.WriteNumberValue(bs.ReadInt16());
+                        short v10 = bs.ReadInt16();
+                        if (!isDuplicate) sw.WriteNumberValue(v10);
                         break;
                     case 0x11:
-                        sw.WriteNumberValue(0);
+                        if (!isDuplicate) sw.WriteNumberValue(0);
                         break;
                     case 0x12:
-                        sw.WriteNumberValue(bs.ReadUInt16());
+                        ushort v12 = bs.ReadUInt16();
+                        if (!isDuplicate) sw.WriteNumberValue(v12);
                         break;
                     case 0x13:
-                        sw.WriteNumberValue(0);
+                        if (!isDuplicate) sw.WriteNumberValue(0);
                         break;
                     case 0x20:
-                        sw.WriteNumberValue(bs.ReadInt32());
+                        int v20 = bs.ReadInt32();
+                        if (!isDuplicate) sw.WriteNumberValue(v20);
                         break;
                     case 0x21:
-                        sw.WriteNumberValue(0);
+                        if (!isDuplicate) sw.WriteNumberValue(0);
                         break;
                     case 0x22:
-                        sw.WriteNumberValue(bs.ReadFloat32());
+                        float v22 = bs.ReadFloat32();
+                        if (!isDuplicate) sw.WriteNumberValue(v22);
                         break;
                     case 0x23:
-                        sw.WriteNumberValue(0F);
+                        if (!isDuplicate) sw.WriteNumberValue(0F);
                         break;
                     case 0x24:
-                        sw.WriteNumberValue(bs.ReadVarInt32());
+                        int v24 = bs.ReadVarInt32();
+                        if (!isDuplicate) sw.WriteNumberValue(v24);
                         break;
                     case 0x25:
-                        sw.WriteNumberValue(bs.ReadZigZag32());
+                        int v25 = bs.ReadZigZag32();
+                        if (!isDuplicate) sw.WriteNumberValue(v25);
                         break;
                     case 0x26:
-                        sw.WriteNumberValue(bs.ReadUInt32());
+                        uint v26 = bs.ReadUInt32();
+                        if (!isDuplicate) sw.WriteNumberValue(v26);
                         break;
                     case 0x27:
-                        sw.WriteNumberValue(0U);
+                        if (!isDuplicate) sw.WriteNumberValue(0U);
                         break;
                     case 0x28:
-                        sw.WriteNumberValue(bs.ReadUVarInt32());
+                        uint v28 = bs.ReadUVarInt32();
+                        if (!isDuplicate) sw.WriteNumberValue(v28);
                         break;
                     case 0x40:
-                        sw.WriteNumberValue(bs.ReadInt64());
+                        long v40 = bs.ReadInt64();
+                        if (!isDuplicate) sw.WriteNumberValue(v40);
                         break;
                     case 0x41:
-                        sw.WriteNumberValue(0L);
+                        if (!isDuplicate) sw.WriteNumberValue(0L);
                         break;
                     case 0x42:
-                        sw.WriteNumberValue(bs.ReadFloat64());
+                        double v42 = bs.ReadFloat64();
+                        if (!isDuplicate) sw.WriteNumberValue(v42);
                         break;
                     case 0x43:
-                        sw.WriteNumberValue(0D);
+                        if (!isDuplicate) sw.WriteNumberValue(0D);
                         break;
                     case 0x44:
-                        sw.WriteNumberValue(bs.ReadVarInt64());
+                        long v44 = bs.ReadVarInt64();
+                        if (!isDuplicate) sw.WriteNumberValue(v44);
                         break;
                     case 0x45:
-                        sw.WriteNumberValue(bs.ReadZigZag64());
+                        long v45 = bs.ReadZigZag64();
+                        if (!isDuplicate) sw.WriteNumberValue(v45);
                         break;
                     case 0x46:
-                        sw.WriteNumberValue(bs.ReadUInt64());
+                        ulong v46 = bs.ReadUInt64();
+                        if (!isDuplicate) sw.WriteNumberValue(v46);
                         break;
                     case 0x47:
-                        sw.WriteNumberValue(0UL);
+                        if (!isDuplicate) sw.WriteNumberValue(0UL);
                         break;
                     case 0x48:
-                        sw.WriteNumberValue(bs.ReadUVarInt64());
+                        ulong v48 = bs.ReadUVarInt64();
+                        if (!isDuplicate) sw.WriteNumberValue(v48);
                         break;
                     case 0x81:
-                        sw.WriteStringValue(bs.ReadBytes(bs.ReadVarInt32()));
+                        byte[] v81 = bs.ReadBytes(bs.ReadVarInt32());
+                        if (!isDuplicate) sw.WriteStringValue(v81);
                         break;
                     case 0x82:
                         bs.ReadVarInt32();
-                        sw.WriteStringValue(bs.ReadBytes(bs.ReadVarInt32()));
+                        byte[] v82 = bs.ReadBytes(bs.ReadVarInt32());
+                        if (!isDuplicate) sw.WriteStringValue(v82);
                         break;
                     case 0x83:
-                        sw.WriteStringValue(ReadRTID(bs));
+                        string v83 = ReadRTID(bs);
+                        if (!isDuplicate) sw.WriteStringValue(v83);
                         break;
                     case 0x84:
-                        sw.WriteStringValue(RTID0);
+                        if (!isDuplicate) sw.WriteStringValue(RTID0);
                         break;
                     case 0x85:
-                        ReadJObject(bs, sw);
+                        if (isDuplicate)
+                        {
+                            using (var tempStream = new System.IO.MemoryStream())
+                            using (var tempWriter = new Utf8JsonWriter(tempStream))
+                            {
+                                ReadJObject(bs, tempWriter);
+                            }
+                        }
+                        else
+                        {
+                            ReadJObject(bs, sw);
+                        }
                         break;
                     case 0x86:
-                        ReadJArray(bs, sw);
+                        if (isDuplicate)
+                        {
+                            using (var tempStream = new System.IO.MemoryStream())
+                            using (var tempWriter = new Utf8JsonWriter(tempStream))
+                            {
+                                ReadJArray(bs, tempWriter);
+                            }
+                        }
+                        else
+                        {
+                            ReadJArray(bs, sw);
+                        }
                         break;
                     case 0x87:
-                        sw.WriteStringValue(ReadBinary(bs));
+                        string v87 = ReadBinary(bs);
+                        if (!isDuplicate) sw.WriteStringValue(v87);
                         break;
                     case 0x90:
                         tempstring = bs.ReadBytes(bs.ReadVarInt32());
                         R0x90List.Add(tempstring);
-                        sw.WriteStringValue(tempstring);
+                        if (!isDuplicate) sw.WriteStringValue(tempstring);
                         break;
                     case 0x91:
-                        sw.WriteStringValue(R0x90List[bs.ReadVarInt32()]);
+                        byte[] v91 = R0x90List[bs.ReadVarInt32()];
+                        if (!isDuplicate) sw.WriteStringValue(v91);
                         break;
                     case 0x92:
                         bs.ReadVarInt32();
                         tempstring = bs.ReadBytes(bs.ReadVarInt32());
                         R0x92List.Add(tempstring);
-                        sw.WriteStringValue(tempstring);
+                        if (!isDuplicate) sw.WriteStringValue(tempstring);
                         break;
                     case 0x93:
-                        sw.WriteStringValue(R0x92List[bs.ReadVarInt32()]);
+                        byte[] v93 = R0x92List[bs.ReadVarInt32()];
+                        if (!isDuplicate) sw.WriteStringValue(v93);
                         break;
                     case 0xB0:
                     case 0xB1:
@@ -481,16 +544,17 @@ namespace PopStudio.RTON
                     case 0xB6:
                     case 0xB7:
                     case 0xB8:
-                        //about object
+                    //about object
                     case 0xB9:
-                        //about array
+                    //about array
                     case 0xBA:
-                        //about string
+                    //about string
                     case 0xBB:
                         //about binary
                         throw new Exception("0xb0-0xbb is not supported!");
                     case 0xBC:
-                        sw.WriteBooleanValue(bs.ReadByte() != 0);
+                        byte vBC = bs.ReadByte();
+                        if (!isDuplicate) sw.WriteBooleanValue(vBC != 0);
                         break;
                     default:
                         throw new Exception(Str.Obj.TypeMisMatch);
