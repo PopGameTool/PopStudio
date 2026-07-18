@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Globalization;
 
 namespace PopStudio.Particles
 {
@@ -281,7 +282,7 @@ namespace PopStudio.Particles
                         char next2 = inText[j];
                         if (next2 == ' ' || next2 == ']') break;
                     }
-                    float n = Convert.ToSingle(inText[i..j]);
+                    float n = Convert.ToSingle(inText[i..j], CultureInfo.InvariantCulture);
                     node.LowValue = n;
                     //Check Next Token
                     if (inText[j] == ']')
@@ -323,7 +324,7 @@ namespace PopStudio.Particles
                             j++;
                             if (inText[j] == ']') break;
                         }
-                        n = Convert.ToSingle(inText[i..j]);
+                        n = Convert.ToSingle(inText[i..j], CultureInfo.InvariantCulture);
                         node.HighValue = n;
                         i = ++j;
                     }
@@ -339,7 +340,7 @@ namespace PopStudio.Particles
                         char next2 = inText[j];
                         if (next2 == ' ' || next2 == ',') break;
                     }
-                    float n = Convert.ToSingle(inText[i..j]);
+                    float n = Convert.ToSingle(inText[i..j], CultureInfo.InvariantCulture);
                     node.LowValue = n;
                     node.HighValue = n;
                     node.Distribution = 1; //Only One Number Without [] => Linear
@@ -369,7 +370,7 @@ namespace PopStudio.Particles
                         j++;
                         if (j >= length || inText[j] == ' ') break;
                     }
-                    node.Time = Convert.ToSingle(inText[i..j]);
+                    node.Time = Convert.ToSingle(inText[i..j], CultureInfo.InvariantCulture);
                     i = j;
                 }
                 else
@@ -426,12 +427,13 @@ namespace PopStudio.Particles
                     {
                         int j = i + 1;
                         while (realans[j].Time < -1000) j++;
-                        delta = (realans[j].Time - realans[i].Time) / delta;
+                        delta = (realans[j].Time - realans[i].Time) / (j - i);
                     }
                 }
                 else
                 {
-                    realans[i].Time = last + delta;
+                    last += delta;
+                    realans[i].Time = last;
                 }
                 realans[i].Time /= 100;
             }
@@ -854,7 +856,7 @@ namespace PopStudio.Particles
 
         static string FloatToString(float? f)
         {
-            string ans = f.ToString();
+            string ans = f.GetValueOrDefault().ToString(CultureInfo.InvariantCulture);
             return ans.StartsWith("0.") ? ans[1..] : ans;
         }
 
@@ -866,9 +868,9 @@ namespace PopStudio.Particles
                 if (i > 0) sw.Write(' ');
                 ParticlesTrackNode node = track[i];
                 int Distribution = node.Distribution ?? 1;
+                int CurveType = node.CurveType ?? 1;
                 node.LowValue ??= 0;
                 node.HighValue ??= 0;
-                node.CurveType ??= 1;
                 //Min, Max, Distribution
                 if (node.LowValue == node.HighValue)
                 {
@@ -928,21 +930,21 @@ namespace PopStudio.Particles
                 if (node.Time != 0 && node.Time != 1)
                 {
                     sw.Write(',');
-                    sw.Write(node.Time * 100);
+                    sw.Write((node.Time * 100).ToString(CultureInfo.InvariantCulture));
                 }
                 //Curves
-                if (node.CurveType != 1)
+                if (CurveType != 1)
                 {
                     sw.Write(' ');
-                    if (Distribution < 0 || Distribution > 13)
+                    if (CurveType < 0 || CurveType > 13)
                     {
                         sw.Write("TodCurves(");
-                        sw.Write(Distribution);
+                        sw.Write(CurveType);
                         sw.Write(')');
                     }
                     else
                     {
-                        sw.Write(TrailEnum[Distribution]);
+                        sw.Write(TrailEnum[CurveType]);
                     }
                 }
             }
