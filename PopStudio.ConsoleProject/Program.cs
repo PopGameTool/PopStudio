@@ -13,7 +13,8 @@ namespace PopStudio.ConsoleProject
 #elif MACOSCONSOLE
             YFBitmap.RegistPlatform<ImageBitmap>();
 #else
-            YFBitmap.RegistPlatform<GDIBitmap>();
+            // YFBitmap.RegistPlatform<GDIBitmap>();
+            YFBitmap.RegistPlatform<ImageBitmap>();
 #endif
             try
             {

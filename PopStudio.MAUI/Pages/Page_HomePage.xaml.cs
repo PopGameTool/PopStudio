@@ -32,7 +32,6 @@ namespace PopStudio.MAUI
 			InitializeComponent();
             LoadFont();
             MAUIStr.OnLanguageChanged += LoadFont;
-            ShowDialog();
         }
 
         ~Page_HomePage()
@@ -40,13 +39,27 @@ namespace PopStudio.MAUI
             MAUIStr.OnLanguageChanged -= LoadFont;
         }
 
-        private async void ShowDialog()
+        // 【关键修改 1】重写 OnAppearing：页面每次显示时（包括从系统设置返回）都检查权限
+        protected override void OnAppearing()
         {
-			if (!await Permission.CheckPermissionAsync())
-            {
-                AndroidPermission.IsVisible = true;
-            }
-		}
+            base.OnAppearing();
+            CheckPermissionAndUpdateUi();
+        }
+
+        // 【关键修改 2】用 OnDisappearing 替代析构函数（更可靠）
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            MAUIStr.OnLanguageChanged -= LoadFont;
+        }
+
+        // 【关键修改 3】封装统一的权限检查+UI更新逻辑
+        private async void CheckPermissionAndUpdateUi()
+        {
+            bool hasPermission = await Permission.CheckPermissionAsync();
+            // 有权限则隐藏弹窗，无权限则显示
+            AndroidPermission.IsVisible = !hasPermission;
+        }
 
         int GetRandomNumber(int m, int n)
         {
@@ -56,6 +69,8 @@ namespace PopStudio.MAUI
         private async void button_permission_Clicked(object sender, EventArgs e)
         {
             await this.CheckAndRequestPermissionAsync();
+            // 【关键修改 4】用户在当前页授权后，立即重新检查并更新 UI
+            CheckPermissionAndUpdateUi();
         }
 
         private void button_close_Clicked(object sender, EventArgs e)
