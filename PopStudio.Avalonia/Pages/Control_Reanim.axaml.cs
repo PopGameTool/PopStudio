@@ -23,6 +23,8 @@ namespace PopStudio.Avalonia.Pages
             CB_InMode.Items.Add("TV_Compiled");
             CB_InMode.Items.Add("Studio_Json");
             CB_InMode.Items.Add("Raw_Xml");
+            CB_InMode.Items.Add("Flash_Xfl_Folder");
+            CB_InMode.Items.Add("Flash_Fla");
             CB_InMode.SelectedIndex = 0;
             CB_OutMode.Items.Add("PC_Compiled");
             CB_OutMode.Items.Add("Phone32_Compiled");
@@ -34,6 +36,7 @@ namespace PopStudio.Avalonia.Pages
             CB_OutMode.Items.Add("Raw_Xml");
             CB_OutMode.Items.Add("Flash_Xfl_Folder");
             CB_OutMode.Items.Add("Godot_Anim");
+            CB_OutMode.Items.Add("Flash_Fla");
             CB_OutMode.SelectedIndex = 7;
             MAUIStr.OnLanguageChanged += LoadFont;
         }
@@ -102,7 +105,9 @@ namespace PopStudio.Avalonia.Pages
         {
             try
             {
-                string val = batch_mode.IsChecked == false ? (await new OpenFileDialog { AllowMultiple = false }.ShowAsync(MainWindow.Singleten))?[0] : (await new OpenFolderDialog().ShowAsync(MainWindow.Singleten));
+                string val = (CB_InMode.SelectedIndex == 8 || batch_mode.IsChecked == true)
+                    ? await new OpenFolderDialog().ShowAsync(MainWindow.Singleten)
+                    : (await new OpenFileDialog { AllowMultiple = false }.ShowAsync(MainWindow.Singleten))?[0];
                 if (!string.IsNullOrEmpty(val)) textbox1.Text = val;
             }
             catch (Exception)
@@ -151,6 +156,7 @@ namespace PopStudio.Avalonia.Pages
                         7 => ".reanim",
                         8 => ".xfl",
                         9 => ".scn",
+                        10 => ".fla",
                         _ => null
                     };
                     if (batchmode)
@@ -173,12 +179,17 @@ namespace PopStudio.Avalonia.Pages
                             5 => ".reanim.compiled",
                             6 => ".reanim.json",
                             7 => ".reanim",
+                            8 => ".xfl",
+                            9 => null,
                             _ => null
                         };
-                        int rightFormatLength = rightFormat.Length;
+                        int rightFormatLength = rightFormat?.Length ?? 0;
                         foreach (string mfile in files)
                         {
-                            if (mfile.Length < rightFormatLength || mfile[^rightFormatLength..].ToLower() != rightFormat)
+                            bool matchesInputFormat = inmode == 9
+                                ? PopStudio.Reanim.FlashFla.IsZipXfl(mfile)
+                                : mfile.Length >= rightFormatLength && mfile[^rightFormatLength..].ToLower() == rightFormat;
+                            if (!matchesInputFormat)
                             {
                                 continue;
                             }
@@ -199,7 +210,7 @@ namespace PopStudio.Avalonia.Pages
                     }
                     else
                     {
-                        if (!File.Exists(inFile))
+                        if (!File.Exists(inFile) && !(inmode == 8 && Directory.Exists(inFile)))
                         {
                             throw new Exception(string.Format(MAUIStr.Obj.Share_FileNotFound, inFile));
                         }

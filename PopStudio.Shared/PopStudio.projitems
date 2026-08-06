@@ -117,7 +117,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\PopAnim\PopAnimInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\PopAnim\SpriteInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\PopAnim\PamJsonContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\FlashFla.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\FlashXfl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\FlashXflDecoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\GameConsole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\RawXml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\ReanimFormat.cs" />

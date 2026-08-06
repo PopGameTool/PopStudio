@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace PopStudio.Reanim
 {
     internal class FlashXfl
     {
-        public static Reanim Decode(string inFile) => throw new NotImplementedException();
+        public static Reanim Decode(string inFile) => FlashXflDecoder.Decode(inFile);
 
         public static void Encode(Reanim reanim, string outFile)
         {
@@ -25,7 +26,12 @@ namespace PopStudio.Reanim
             //Png List
             List<string> media = new List<string>();
             List<string> symbols = new List<string>();
-            Dictionary<string, bool> Exist = new Dictionary<string, bool>();
+            Dictionary<string, bool> Exist = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, string> RegisteredImageNames = new Dictionary<string, string>(StringComparer.Ordinal);
+            const string locatorName = "__reanim_locator__";
+            symbols.Add(locatorName);
+            Exist.Add(locatorName, true);
+            WriteLocatorSymbol(outFile_Library, locatorName);
             using (StreamWriter sw = new StreamWriter(outFile + "DOMDocument.xml", false))
             {
                 sw.Write("<DOMDocument frameRate=\"");
@@ -59,6 +65,7 @@ namespace PopStudio.Reanim
                     sw.Write("                    <frames>\n");
                     int transformNumber = track.transforms.Length;
                     List<string> ImgList = new List<string>();
+                    Dictionary<string, string> ImageNames = new Dictionary<string, string>(StringComparer.Ordinal);
                     int index = 0;
                     for (int j = 0; j < transformNumber; j++)
                     {
@@ -74,25 +81,41 @@ namespace PopStudio.Reanim
                         defaultTransform.a = thisTransform.a ?? defaultTransform.a;
                         if (thisTransform.i != null)
                         {
-                            string nid = GetNameByID(thisTransform.i.ToString(), track.name, index++);
-                            if (!Exist.ContainsKey(nid))
+                            string imageID = Convert.ToString(thisTransform.i, CultureInfo.InvariantCulture);
+                            if (string.IsNullOrEmpty(imageID))
                             {
-                                ImgList.Add(nid);
-                                media.Add(nid);
-                                symbols.Add(nid);
+                                defaultTransform.i = null;
                             }
-                            defaultTransform.i = nid;
+                            else
+                            {
+                                if (!ImageNames.TryGetValue(imageID, out string nid))
+                                {
+                                    string imageKey = UseLabelName > 0 ? i + "\0" + imageID : imageID;
+                                    if (!RegisteredImageNames.TryGetValue(imageKey, out nid))
+                                    {
+                                        nid = GetUniqueLibraryName(GetNameByID(imageID, track.name, index), Exist);
+                                        RegisteredImageNames.Add(imageKey, nid);
+                                        Exist.Add(nid, true);
+                                        ImgList.Add(nid);
+                                        media.Add(nid);
+                                        symbols.Add(nid);
+                                    }
+                                    index++;
+                                    ImageNames.Add(imageID, nid);
+                                }
+                                defaultTransform.i = nid;
+                            }
                         }
                         #endregion
                         sw.Write("                        <DOMFrame index=\"");
                         sw.Write(j);
                         sw.Write("\">\n");
-                        if (defaultTransform.i != null && defaultTransform.f != -1)
+                        if (defaultTransform.f != -1)
                         {
                             sw.Write("                            <elements>\n");
                             sw.Write("                                <DOMSymbolInstance");
                             sw.Write(" libraryItemName=\"");
-                            sw.Write(defaultTransform.i);
+                            sw.Write(defaultTransform.i ?? locatorName);
                             sw.Write("\"");
                             sw.Write(">\n");
                             sw.Write("                                    <matrix>\n");
@@ -218,6 +241,50 @@ namespace PopStudio.Reanim
             }
         }
 
+        static string GetUniqueLibraryName(string requestedName, Dictionary<string, bool> existingNames)
+        {
+            string baseName = string.IsNullOrEmpty(requestedName) ? "image" : requestedName;
+            if (!existingNames.ContainsKey(baseName))
+            {
+                return baseName;
+            }
+
+            int suffix = 1;
+            string uniqueName;
+            do
+            {
+                uniqueName = baseName + "_" + suffix++;
+            }
+            while (existingNames.ContainsKey(uniqueName));
+            return uniqueName;
+        }
+
+        static void WriteLocatorSymbol(string libraryFolder, string locatorName)
+        {
+            using (StreamWriter sw = new StreamWriter(libraryFolder + locatorName + ".xml", false))
+            {
+                sw.Write("<DOMSymbolItem xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://ns.adobe.com/xfl/2008/\" name=\"");
+                sw.Write(locatorName);
+                sw.Write("\">\n");
+                sw.Write("    <timeline>\n");
+                sw.Write("        <DOMTimeline name=\"");
+                sw.Write(locatorName);
+                sw.Write("\">\n");
+                sw.Write("            <layers>\n");
+                sw.Write("                <DOMLayer name=\"Layer 1\" color=\"#4FFF4F\" current=\"true\" isSelected=\"true\">\n");
+                sw.Write("                    <frames>\n");
+                sw.Write("                        <DOMFrame index=\"0\">\n");
+                sw.Write("                            <elements />\n");
+                sw.Write("                        </DOMFrame>\n");
+                sw.Write("                    </frames>\n");
+                sw.Write("                </DOMLayer>\n");
+                sw.Write("            </layers>\n");
+                sw.Write("        </DOMTimeline>\n");
+                sw.Write("    </timeline>\n");
+                sw.Write("</DOMSymbolItem>");
+            }
+        }
+
         static string GetNameByID(string ID, string labelname, int labelindex)
         {
             if (UseLabelName > 0)
@@ -230,16 +297,16 @@ namespace PopStudio.Reanim
             }
             else if (UseLabelName < 0)
             {
-                return ID.ToLower();
+                return ID.ToLowerInvariant();
             }
             else
             {
                 string name = ID;
-                if (name.StartsWith("IMAGE_REANIM_"))
+                if (name.StartsWith("IMAGE_REANIM_", StringComparison.OrdinalIgnoreCase))
                 {
                     name = name[13..];
                 }
-                return name.ToLower();
+                return name.ToLowerInvariant();
             }
         }
 

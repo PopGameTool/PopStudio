@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Globalization;
 
 namespace PopStudio.Trail
 {
@@ -24,7 +25,7 @@ namespace PopStudio.Trail
                         trail.MaxPoints = Convert.ToInt32(node.InnerText);
                         break;
                     case "MinPointDistance":
-                        trail.MinPointDistance = Convert.ToSingle(node.InnerText);
+                        trail.MinPointDistance = Convert.ToSingle(node.InnerText, CultureInfo.InvariantCulture);
                         break;
                     case "Loops":
                         trail.TrailFlags |= node.InnerText == "1" ? 0b1 : 0;
@@ -76,7 +77,7 @@ namespace PopStudio.Trail
                         char next2 = inText[j];
                         if (next2 == ' ' || next2 == ']') break;
                     }
-                    float n = Convert.ToSingle(inText[i..j]);
+                    float n = Convert.ToSingle(inText[i..j], CultureInfo.InvariantCulture);
                     node.LowValue = n;
                     //Check Next Token
                     if (inText[j] == ']')
@@ -118,7 +119,7 @@ namespace PopStudio.Trail
                             j++;
                             if (inText[j] == ']') break;
                         }
-                        n = Convert.ToSingle(inText[i..j]);
+                        n = Convert.ToSingle(inText[i..j], CultureInfo.InvariantCulture);
                         node.HighValue = n;
                         i = ++j;
                     }
@@ -134,7 +135,7 @@ namespace PopStudio.Trail
                         char next2 = inText[j];
                         if (next2 == ' ' || next2 == ',') break;
                     }
-                    float n = Convert.ToSingle(inText[i..j]);
+                    float n = Convert.ToSingle(inText[i..j], CultureInfo.InvariantCulture);
                     node.LowValue = n;
                     node.HighValue = n;
                     node.Distribution = 1; //Only One Number Without [] => Linear
@@ -164,7 +165,7 @@ namespace PopStudio.Trail
                         j++;
                         if (j >= length || inText[j] == ' ') break;
                     }
-                    node.Time = Convert.ToSingle(inText[i..j]);
+                    node.Time = Convert.ToSingle(inText[i..j], CultureInfo.InvariantCulture);
                     i = j;
                 }
                 else
@@ -221,12 +222,13 @@ namespace PopStudio.Trail
                     {
                         int j = i + 1;
                         while (realans[j].Time < -1000) j++;
-                        delta = (realans[j].Time - realans[i].Time) / delta;
+                        delta = (realans[j].Time - realans[i].Time) / (j - i);
                     }
                 }
                 else
                 {
-                    realans[i].Time = last + delta;
+                    last += delta;
+                    realans[i].Time = last;
                 }
                 realans[i].Time /= 100;
             }
@@ -297,7 +299,7 @@ namespace PopStudio.Trail
 
         static string FloatToString(float? f)
         {
-            string ans = f.ToString();
+            string ans = f.GetValueOrDefault().ToString(CultureInfo.InvariantCulture);
             return ans.StartsWith("0.") ? ans[1..] : ans;
         }
 
@@ -371,7 +373,7 @@ namespace PopStudio.Trail
                 if (node.Time != 0 && node.Time != 1)
                 {
                     sw.Write(',');
-                    sw.Write(node.Time * 100);
+                    sw.Write((node.Time * 100).ToString(CultureInfo.InvariantCulture));
                 }
                 //Curves
                 Distribution = node.CurveType ?? 1;

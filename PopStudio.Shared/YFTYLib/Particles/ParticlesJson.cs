@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Globalization;
 
 namespace PopStudio.Particles
 {
@@ -1624,14 +1625,14 @@ namespace PopStudio.Particles
                 sw.Write('\n');
                 sw.Write(space2);
                 sw.Write("\"Time\":");
-                sw.Write(node.Time);
+                sw.Write(node.Time.ToString(CultureInfo.InvariantCulture));
                 if (node.LowValue != null)
                 {
                     sw.Write(',');
                     sw.Write('\n');
                     sw.Write(space2);
                     sw.Write("\"LowValue\":");
-                    sw.Write(node.LowValue);
+                    sw.Write(node.LowValue.Value.ToString(CultureInfo.InvariantCulture));
                 }
                 if (node.HighValue != null)
                 {
@@ -1639,7 +1640,7 @@ namespace PopStudio.Particles
                     sw.Write('\n');
                     sw.Write(space2);
                     sw.Write("\"HighValue\":");
-                    sw.Write(node.HighValue);
+                    sw.Write(node.HighValue.Value.ToString(CultureInfo.InvariantCulture));
                 }
                 if (node.CurveType != null)
                 {

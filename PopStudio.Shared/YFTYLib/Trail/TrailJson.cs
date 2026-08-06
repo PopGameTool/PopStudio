@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Globalization;
 
 namespace PopStudio.Trail
 {
@@ -146,7 +147,7 @@ namespace PopStudio.Trail
                         sw.Write('\n');
                     }
                     sw.Write("    \"MinPointDistance\":");
-                    sw.Write(trail.MinPointDistance);
+                    sw.Write(trail.MinPointDistance.Value.ToString(CultureInfo.InvariantCulture));
                 }
                 if ((trail.TrailFlags & 0b1) != 0)
                 {
@@ -244,20 +245,20 @@ namespace PopStudio.Trail
                 TrailTrackNode node = track[i];
                 sw.Write('\n');
                 sw.Write("            \"Time\":");
-                sw.Write(node.Time);
+                sw.Write(node.Time.ToString(CultureInfo.InvariantCulture));
                 if (node.LowValue != null)
                 {
                     sw.Write(',');
                     sw.Write('\n');
                     sw.Write("            \"LowValue\":");
-                    sw.Write(node.LowValue);
+                    sw.Write(node.LowValue.Value.ToString(CultureInfo.InvariantCulture));
                 }
                 if (node.HighValue != null)
                 {
                     sw.Write(',');
                     sw.Write('\n');
                     sw.Write("            \"HighValue\":");
-                    sw.Write(node.HighValue);
+                    sw.Write(node.HighValue.Value.ToString(CultureInfo.InvariantCulture));
                 }
                 if (node.CurveType != null)
                 {

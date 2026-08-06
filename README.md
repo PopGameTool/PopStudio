@@ -21,6 +21,7 @@ decode and encode tex(including Android and iOS)
 decode and encode txz(including Android and iOS)  
 decode and encode xnb(including WindowsPhone)  
 decode and encode reanim.compiled(including Windows, MacOS, Android, iOS, WindowsPhone, PS3, PSV and Xbox360)  
+convert reanim formats to and from unpacked XFL projects and modern ZIP-based FLA files
 decode and encode xml.compiled(including Windows, MacOS, Android, iOS, WindowsPhone, PS3, PSV and Xbox360)  
 decode and encode trail.compiled(including Windows, MacOS, Android, iOS, WindowsPhone, PS3, PSV and Xbox360)  
 decode and encode pam(including version 1-6)  
@@ -32,6 +33,11 @@ ___
 If you know other file sturctures such as luc and pax, you can communicate with the author.  
 ___
 If you want to communicate with the author, you can download QQ(a chatting software) in Google Play, App Store or Microsoft Store, and then register a QQ account number and enter our QQ group numbered 1017246977(The answer is "Github").
+___
+Contributors:
+
+- 惋兮
+
 ___
 This project has used:  
 [DotNetZip](https://github.com/eropple/dotnetzip) to decompress and compress BZip2 files.  
@@ -65,6 +71,7 @@ In Chinese:
 解码编码txz（包括Android，iOS）  
 解码编码xnb（包括WindowsPhone）  
 解码编码reanim.compiled(包括Windows，MacOS，Android，iOS，WindowsPhone，PS3，PSV和Xbox360)  
+在未打包的XFL工程、现代ZIP型FLA文件与任意已支持的reanim格式之间转换
 解码编码xml.compiled(包括Windows，MacOS，Android，iOS，WindowsPhone，PS3，PSV和Xbox360)  
 解码编码trail.compiled(包括Windows，MacOS，Android，iOS，WindowsPhone，PS3，PSV和Xbox360)  
 解码编码pam（包括版本号1-6的）  
@@ -77,6 +84,11 @@ ___
 ___
 如果你想和作者交流，你可以使用QQ，加入群聊1017246977（备注“GitHub”）。  
 ___
+贡献者：
+
+- 惋兮
+
+___
 这个项目使用了：  
 [DotNetZip](https://github.com/eropple/dotnetzip)用于解压和压缩BZip2文件。  
 [MaxRectsBinPack](http://wiki.unity3d.com/index.php/MaxRectsBinPack)用于构建图集。  
@@ -85,4 +97,4 @@ ___
 [Real-Time DXT Compression](https://www.researchgate.net/publication/259000525_Real-Time_DXT_Compression)用于编码DXT纹理。  
 [EveryFileExplorer](https://github.com/Gericom/EveryFileExplorer)用于编码ETC1纹理。  
 [pvrtccompressor](https://bitbucket.org/jthlim/pvrtccompressor)用于编码PVRTCI纹理。  
-[PVR Native SDK](https://github.com/powervr-graphics/Native_SDK)用于解码PVRTCI纹理。  
+[PVR Native SDK](https://github.com/powervr-graphics/Native_SDK)用于解码PVRTCI纹理。

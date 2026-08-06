@@ -10,7 +10,7 @@
 	<!--<TrimMode>link</TrimMode>-->
 	<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 	<ApplicationIcon>Icon.ico</ApplicationIcon>
-    <FileVersion>6.1</FileVersion>
+    <FileVersion>6.2</FileVersion>
 	<AssemblyName>PopStudio</AssemblyName>
       <PublishAot>true</PublishAot>
 	<IlcFoldIdenticalMethodBodies>true</IlcFoldIdenticalMethodBodies>

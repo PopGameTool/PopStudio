@@ -76,6 +76,7 @@
         public string Console_App_CommandIndex_Reanim_ToStudioJson => "Convert reanim to Studio_Json format";
         public string Console_App_CommandIndex_Reanim_ToRawXml => "Convert reanim to Raw_Xml format";
         public string Console_App_CommandIndex_Reanim_ToFlashXfl => "Convert reanim to Flash_Xfl_Folder format";
+        public string Console_App_CommandIndex_Reanim_ToFlashFla => "Convert reanim to Flash_Fla format";
         public string Console_App_CommandIndex_Particles_ToPCCompiled => "Convert xml to PC_Compiled format";
         public string Console_App_CommandIndex_Particles_ToPhone32Compiled => "Convert xml to Phone32_Compiled format";
         public string Console_App_CommandIndex_Particles_ToPhone64Compiled => "Convert xml to Phone64_Compiled format";

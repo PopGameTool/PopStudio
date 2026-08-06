@@ -13,7 +13,7 @@
 	  <IlcGenerateStackTraceData>false</IlcGenerateStackTraceData>
 	  <IlcDisableUnhandledExceptionExperience>true</IlcDisableUnhandledExceptionExperience>
 	  <ApplicationIcon>Icon.ico</ApplicationIcon>
-	  <FileVersion>6.1</FileVersion>
+	  <FileVersion>6.2</FileVersion>
 	  <AssemblyName>PopStudio</AssemblyName>
   </PropertyGroup>
 

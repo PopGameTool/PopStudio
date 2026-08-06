@@ -165,6 +165,9 @@ namespace PopStudio.ConsoleProject
                 case CommandCode.Reanim_ToFlashXfl:
                     YFAPI.ParseReanim(filePath, HandleRPTExtension(filePath, null), 8);
                     break;
+                case CommandCode.Reanim_ToFlashFla:
+                    YFAPI.ParseReanim(filePath, HandleRPTExtension(filePath, ".fla"), 10);
+                    break;
                 case CommandCode.Particles_ToPCCompiled:
                     YFAPI.ParseParticles(filePath, HandleRPTExtension(filePath, ".xml.compiled"), 0);
                     break;
@@ -402,6 +405,10 @@ namespace PopStudio.ConsoleProject
                 codeList.Add(CommandCode.SpliceImage_AtlasImageDat);
                 codeList.Add(CommandCode.SpliceImage_TVAtlasXml);
                 codeList.Add(CommandCode.SpliceImage_ResRTON);
+                if (File.Exists(Path.Combine(filePath, "DOMDocument.xml")))
+                {
+                    AddReanimConversions(codeList);
+                }
             }
             else
             {
@@ -422,6 +429,7 @@ namespace PopStudio.ConsoleProject
                         codeList.Add(CommandCode.Reanim_ToTVCompiled);
                         codeList.Add(CommandCode.Reanim_ToRawXml);
                         codeList.Add(CommandCode.Reanim_ToFlashXfl);
+                        codeList.Add(CommandCode.Reanim_ToFlashFla);
                         break;
                     case ".xml.json":
                         codeList.Add(CommandCode.Particles_ToPCCompiled);
@@ -451,6 +459,7 @@ namespace PopStudio.ConsoleProject
                         codeList.Add(CommandCode.Reanim_ToStudioJson);
                         codeList.Add(CommandCode.Reanim_ToRawXml);
                         codeList.Add(CommandCode.Reanim_ToFlashXfl);
+                        codeList.Add(CommandCode.Reanim_ToFlashFla);
                         break;
                     case ".xml.compiled":
                         codeList.Add(CommandCode.Particles_ToPCCompiled);
@@ -478,6 +487,9 @@ namespace PopStudio.ConsoleProject
                     default:
                         switch (Ex1)
                         {
+                            case ".xfl":
+                                AddReanimConversions(codeList);
+                                break;
                             case ".dz":
                                 codeList.Add(CommandCode.Unpack_Dz);
                                 break;
@@ -538,6 +550,7 @@ namespace PopStudio.ConsoleProject
                                 codeList.Add(CommandCode.Reanim_ToStudioJson);
                                 codeList.Add(CommandCode.Reanim_ToRawXml);
                                 codeList.Add(CommandCode.Reanim_ToFlashXfl);
+                                codeList.Add(CommandCode.Reanim_ToFlashFla);
                                 codeList.Add(CommandCode.Particles_ToPCCompiled);
                                 codeList.Add(CommandCode.Particles_ToPhone32Compiled);
                                 codeList.Add(CommandCode.Particles_ToPhone64Compiled);
@@ -562,6 +575,7 @@ namespace PopStudio.ConsoleProject
                                 codeList.Add(CommandCode.Reanim_ToTVCompiled);
                                 codeList.Add(CommandCode.Reanim_ToStudioJson);
                                 codeList.Add(CommandCode.Reanim_ToFlashXfl);
+                                codeList.Add(CommandCode.Reanim_ToFlashFla);
                                 break;
                             case ".xml":
                                 codeList.Add(CommandCode.Particles_ToPCCompiled);
@@ -595,6 +609,11 @@ namespace PopStudio.ConsoleProject
                                 break;
                         }
                         break;
+                }
+                if (!string.Equals(Ex1, ".xfl", StringComparison.OrdinalIgnoreCase)
+                    && PopStudio.Reanim.FlashFla.IsZipXfl(filePath))
+                {
+                    AddReanimConversions(codeList);
                 }
                 codeList.Add(CommandCode.Decompress_Zlib);
                 codeList.Add(CommandCode.Decompress_Gzip);
@@ -673,6 +692,7 @@ namespace PopStudio.ConsoleProject
                     CommandCode.Reanim_ToStudioJson => MAUIStr.Obj.Console_App_CommandIndex_Reanim_ToStudioJson,
                     CommandCode.Reanim_ToRawXml => MAUIStr.Obj.Console_App_CommandIndex_Reanim_ToRawXml,
                     CommandCode.Reanim_ToFlashXfl => MAUIStr.Obj.Console_App_CommandIndex_Reanim_ToFlashXfl,
+                    CommandCode.Reanim_ToFlashFla => MAUIStr.Obj.Console_App_CommandIndex_Reanim_ToFlashFla,
                     CommandCode.Particles_ToPCCompiled => MAUIStr.Obj.Console_App_CommandIndex_Particles_ToPCCompiled,
                     CommandCode.Particles_ToPhone32Compiled => MAUIStr.Obj.Console_App_CommandIndex_Particles_ToPhone32Compiled,
                     CommandCode.Particles_ToPhone64Compiled => MAUIStr.Obj.Console_App_CommandIndex_Particles_ToPhone64Compiled,
@@ -716,6 +736,20 @@ namespace PopStudio.ConsoleProject
                 }));
             }
             return sb.ToString();
+        }
+
+        static void AddReanimConversions(List<CommandCode> codeList)
+        {
+            codeList.Add(CommandCode.Reanim_ToPCCompiled);
+            codeList.Add(CommandCode.Reanim_ToPhone32Compiled);
+            codeList.Add(CommandCode.Reanim_ToPhone64Compiled);
+            codeList.Add(CommandCode.Reanim_ToWPXnb);
+            codeList.Add(CommandCode.Reanim_ToGameConsoleCompiled);
+            codeList.Add(CommandCode.Reanim_ToTVCompiled);
+            codeList.Add(CommandCode.Reanim_ToStudioJson);
+            codeList.Add(CommandCode.Reanim_ToRawXml);
+            codeList.Add(CommandCode.Reanim_ToFlashXfl);
+            codeList.Add(CommandCode.Reanim_ToFlashFla);
         }
 
         enum CommandCode
@@ -769,6 +803,7 @@ namespace PopStudio.ConsoleProject
             Reanim_ToStudioJson, // 将reanim动画转为Studio_Json格式
             Reanim_ToRawXml, // 将reanim动画转为Raw_Xml格式
             Reanim_ToFlashXfl, // 将reanim动画转为Flash_Xfl_Folder格式
+            Reanim_ToFlashFla, // 将reanim动画转为Flash_Fla格式
             Particles_ToPCCompiled = 140, // 将xml粒子特效转为PC_Compiled格式
             Particles_ToPhone32Compiled, // 将xml粒子特效转为Phone32_Compiled格式
             Particles_ToPhone64Compiled, // 将xml粒子特效转为Phone64_Compiled格式

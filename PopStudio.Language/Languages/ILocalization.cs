@@ -76,6 +76,7 @@
         public string Console_App_CommandIndex_Reanim_ToStudioJson { get; }
         public string Console_App_CommandIndex_Reanim_ToRawXml { get; }
         public string Console_App_CommandIndex_Reanim_ToFlashXfl { get; }
+        public string Console_App_CommandIndex_Reanim_ToFlashFla { get; }
         public string Console_App_CommandIndex_Particles_ToPCCompiled { get; }
         public string Console_App_CommandIndex_Particles_ToPhone32Compiled { get; }
         public string Console_App_CommandIndex_Particles_ToPhone64Compiled { get; }

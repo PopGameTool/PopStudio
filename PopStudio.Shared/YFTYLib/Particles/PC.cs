@@ -196,12 +196,12 @@
                 for (int i = 0; i < count; i++)
                 {
                     ParticlesEmitter emitter = particles.Emitters[i];
-                    string tempstr = bs.ReadStringByInt32Head();
+                    string tempstr = ReadNullableString(bs);
                     if (!string.IsNullOrEmpty(tempstr)) emitter.Image = tempstr;
-                    tempstr = bs.ReadStringByInt32Head();
+                    tempstr = ReadNullableString(bs);
                     if (!string.IsNullOrEmpty(tempstr)) emitter.Name = tempstr;
                     emitter.SystemDuration = ReadTrackNodes(bs);
-                    tempstr = bs.ReadStringByInt32Head();
+                    tempstr = ReadNullableString(bs);
                     if (!string.IsNullOrEmpty(tempstr)) emitter.OnDuration = tempstr;
                     emitter.CrossFadeDuration = ReadTrackNodes(bs);
                     emitter.SpawnRate = ReadTrackNodes(bs);
@@ -283,6 +283,12 @@
                 }
                 return particles;
             }
+        }
+
+        static string ReadNullableString(BinaryStream bs)
+        {
+            int length = bs.ReadInt32();
+            return length > 0 ? bs.ReadString(length) : null;
         }
 
         static ParticlesTrackNode[] ReadTrackNodes(BinaryStream bs)

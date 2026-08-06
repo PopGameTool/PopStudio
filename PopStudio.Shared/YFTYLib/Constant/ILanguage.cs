@@ -5,7 +5,7 @@
         public string EndOfFile { get; }
         public string VarIntTooBig { get; }
         public string DataMisMatch { get; }
-        public string AppVersion => "6.1";
+        public string AppVersion => "6.2";
         public string AppAuthor { get; }
         public string FileNotFound { get; }
         public string FolderNotFound { get; }

@@ -26,7 +26,7 @@
 		<ApplicationIdGuid>C84F4BA7-A986-43E3-96E7-AC7F24564FF1</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>6.1</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>6.2</ApplicationDisplayVersion>
 		<ApplicationVersion>21</ApplicationVersion>
 		<SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>

@@ -76,6 +76,7 @@
         public string Console_App_CommandIndex_Reanim_ToStudioJson => "将reanim动画转为Studio_Json格式";
         public string Console_App_CommandIndex_Reanim_ToRawXml => "将reanim动画转为Raw_Xml格式";
         public string Console_App_CommandIndex_Reanim_ToFlashXfl => "将reanim动画转为Flash_Xfl_Folder格式";
+        public string Console_App_CommandIndex_Reanim_ToFlashFla => "将reanim动画转为Flash_Fla格式";
         public string Console_App_CommandIndex_Particles_ToPCCompiled => "将xml粒子特效转为PC_Compiled格式";
         public string Console_App_CommandIndex_Particles_ToPhone32Compiled => "将xml粒子特效转为Phone32_Compiled格式";
         public string Console_App_CommandIndex_Particles_ToPhone64Compiled => "将xml粒子特效转为Phone64_Compiled格式";
