@@ -123,6 +123,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\GameConsole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\RawXml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\ReanimFormat.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\CompiledSniff.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\WP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\Phone64.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Reanim\TV.cs" />

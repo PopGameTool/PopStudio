@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using PopStudio.Avalonia.Drop;
 using PopStudio.Language.Languages;
 using System.Diagnostics;
 using PopStudio.Platform;
@@ -65,6 +66,33 @@ namespace PopStudio.Avalonia.Pages
             textbox2 = this.Get<TextBox>("textbox2");
             CB_InMode = this.Get<ComboBox>("CB_InMode");
             CB_OutMode = this.Get<ComboBox>("CB_OutMode");
+            DropAccept.AttachPathDrop(textbox1, SetInputFromDrop, () => PathRule.ExistingFileOrFolder(PathExt.ParticlesByIndex(CB_InMode.SelectedIndex)));
+            PathHint.Attach(textbox1, GetInputRule);
+            DropAccept.AttachPathBox(textbox2, path => textbox2.Text = path, GetOutputRule);
+            CB_InMode.SelectionChanged += (_, __) => PathHint.Refresh(textbox1);
+            CB_OutMode.SelectionChanged += (_, __) => PathHint.Refresh(textbox2);
+        }
+
+        PathRule GetInputRule()
+        {
+            return batch_mode.IsChecked == true
+                ? PathRule.ExistingFolder()
+                : PathRule.ExistingFile(PathExt.ParticlesByIndex(CB_InMode.SelectedIndex));
+        }
+
+        PathRule GetOutputRule()
+        {
+            return batch_mode.IsChecked == true
+                ? PathRule.SaveFolder()
+                : PathRule.SaveFile(PathExt.ParticlesByIndex(CB_OutMode.SelectedIndex));
+        }
+
+        void SetInputFromDrop(string path)
+        {
+            batch_mode.IsChecked = Directory.Exists(path);
+            textbox1.Text = path;
+            PathHint.Refresh(textbox1);
+            PathHint.Refresh(textbox2);
         }
 
         void LoadFont()
@@ -88,19 +116,23 @@ namespace PopStudio.Avalonia.Pages
             button2.Content = MAUIStr.Obj.Share_Choose;
             button_run.Content = MAUIStr.Obj.Share_Run;
             label_statue.Text = MAUIStr.Obj.Share_RunStatue;
-            text4.Text = MAUIStr.Obj.Share_Waiting;
+            FinishStatus.Set(text4, MAUIStr.Obj.Share_Waiting);
         }
 
         private void Switch_Batch_Checked(object sender, RoutedEventArgs e)
         {
             LoadFont();
+            PathHint.Refresh(textbox1);
+            PathHint.Refresh(textbox2);
         }
 
         private async void Button1_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                string val = batch_mode.IsChecked == false ? (await new OpenFileDialog { AllowMultiple = false }.ShowAsync(MainWindow.Singleten))?[0] : (await new OpenFolderDialog().ShowAsync(MainWindow.Singleten));
+                string val = batch_mode.IsChecked == false
+                    ? await StorageDialog.OpenFileAsync(PathExt.ParticlesByIndex(CB_InMode.SelectedIndex))
+                    : await StorageDialog.OpenFolderAsync();
                 if (!string.IsNullOrEmpty(val)) textbox1.Text = val;
             }
             catch (Exception)
@@ -112,7 +144,9 @@ namespace PopStudio.Avalonia.Pages
         {
             try
             {
-                string val = batch_mode.IsChecked == false ? (await new SaveFileDialog().ShowAsync(MainWindow.Singleten)) : (await new OpenFolderDialog().ShowAsync(MainWindow.Singleten));
+                string val = batch_mode.IsChecked == false
+                    ? await StorageDialog.SaveFileAsync(PathExt.ParticlesByIndex(CB_OutMode.SelectedIndex))
+                    : await StorageDialog.OpenFolderAsync();
                 if (!string.IsNullOrEmpty(val)) textbox2.Text = val;
             }
             catch (Exception)
@@ -124,7 +158,7 @@ namespace PopStudio.Avalonia.Pages
         {
             Button b = (Button)sender;
             b.IsEnabled = false;
-            text4.Text = MAUIStr.Obj.Share_Running;
+            FinishStatus.Set(text4, MAUIStr.Obj.Share_Running);
             string inFile = textbox1.Text;
             string outFile = textbox2.Text;
             int inmode = CB_InMode.SelectedIndex;
@@ -215,11 +249,11 @@ namespace PopStudio.Avalonia.Pages
                 {
                     if (err == null)
                     {
-                        text4.Text = string.Format(MAUIStr.Obj.Share_Finish, time.ToString("F3"));
+                        FinishStatus.ShowFinish(text4, time.ToString("F3"), outFile);
                     }
                     else
                     {
-                        text4.Text = string.Format(MAUIStr.Obj.Share_Wrong, err);
+                        FinishStatus.ShowWrong(text4, err);
                     }
                     b.IsEnabled = true;
                 });

@@ -96,7 +96,7 @@ namespace PopStudio.Platform
             {
                 try
                 {
-                    ans = await new OpenFolderDialog().ShowAsync(MainWindow.Singleten);
+                    ans = await StorageDialog.OpenFolderAsync();
                 }
                 catch (Exception)
                 {
@@ -116,7 +116,7 @@ namespace PopStudio.Platform
             {
                 try
                 {
-                    ans = (await new OpenFileDialog().ShowAsync(MainWindow.Singleten))?[0];
+                    ans = await StorageDialog.OpenFileAsync();
                 }
                 catch (Exception)
                 {
@@ -136,7 +136,7 @@ namespace PopStudio.Platform
             {
                 try
                 {
-                    ans = await new SaveFileDialog().ShowAsync(MainWindow.Singleten);
+                    ans = await StorageDialog.SaveFileAsync();
                 }
                 catch (Exception)
                 {
