@@ -365,13 +365,13 @@
         public string HomePage_Author_String => "作者：";
         public string HomePage_Author => "萌新迎风听雨";
         public string HomePage_Thanks_String => "特别感谢：";
-        public string HomePage_Thanks => "Bomb 补补23456 2508 和风唐舞 孤独泪痕 63enjoy AS魇梦蚀 伊特 某个萌新 天天 Indestructible_Ch 僵学者 An-Haze";
+        public string HomePage_Thanks => "Bomb 补补23456 2508 和风唐舞 孤独泪痕 63enjoy AS魇梦蚀 伊特 某个萌新 天天 Indestructible_Ch 僵学者 An-Haze 惋兮";
         public string HomePage_QQGroup_String => "交流QQ群：";
         public string HomePage_QQGroup => "1017246977";
         public string HomePage_Course_String => "教学视频：";
         public string HomePage_Course => "https://space.bilibili.com/411256864";
         public string HomePage_AppNewNotice_String => "更新公告：";
-        public string HomePage_AppNewNotice => "1.修复dz文件无法解包的问题；\n2.修复粒子特效转为xml格式时Emitter格式错误的问题；\n3.支持深色模式；\n4.更换广告。";
+        public string HomePage_AppNewNotice => "修复粒子轨迹序列化错误，修复reanim转xfl多图图层异常的问题，支持xfl转reanim";
         //Share
         public string Share_FileNotFound => "文件{0}不存在！";
         public string Share_FolderNotFound => "文件夹{0}不存在！";

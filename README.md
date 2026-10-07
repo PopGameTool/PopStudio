@@ -34,11 +34,6 @@ If you know other file sturctures such as luc and pax, you can communicate with 
 ___
 If you want to communicate with the author, you can download QQ(a chatting software) in Google Play, App Store or Microsoft Store, and then register a QQ account number and enter our QQ group numbered 1017246977(The answer is "Github").
 ___
-Contributors:
-
-- 惋兮
-
-___
 This project has used:  
 [DotNetZip](https://github.com/eropple/dotnetzip) to decompress and compress BZip2 files.  
 [MaxRectsBinPack](http://wiki.unity3d.com/index.php/MaxRectsBinPack) to create atlas.  
@@ -83,11 +78,6 @@ ___
 如果你知道其他文件结构，例如luc和pax，你可以和作者交流。  
 ___
 如果你想和作者交流，你可以使用QQ，加入群聊1017246977（备注“GitHub”）。  
-___
-贡献者：
-
-- 惋兮
-
 ___
 这个项目使用了：  
 [DotNetZip](https://github.com/eropple/dotnetzip)用于解压和压缩BZip2文件。  
