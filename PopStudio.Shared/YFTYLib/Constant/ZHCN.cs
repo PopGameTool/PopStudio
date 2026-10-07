@@ -14,7 +14,7 @@
 
         public string FolderNotFound => "文件夹{0}不存在";
 
-        public string XmemCompressInvalid => "不支持Xmem压缩";
+        public string XmemCompressInvalid => "当前PAK实现尚不支持Xmem压缩与PCVersion或ZlibCompress同时启用";
 
         public string UnknownFormat => "不支持的格式";
 

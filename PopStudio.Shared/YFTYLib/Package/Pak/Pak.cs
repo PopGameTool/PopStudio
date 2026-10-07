@@ -1,5 +1,7 @@
 ﻿using System.Xml;
 
+using XMemCompressionDotNet;
+
 namespace PopStudio.Package.Pak
 {
     /// <summary>
@@ -75,11 +77,15 @@ namespace PopStudio.Package.Pak
                 ZipFile.CreateFromDirectory(inFolder, outFile); //The file in popstudio will enter the zip file, but it doesn't matter.
                 return;
             }
+            if (pak.xmem && (pak.pc || pak.compress == true))
+            {
+                throw new InvalidDataException(Str.Obj.XmemCompressInvalid);
+            }
             string[] a = Dir.GetFiles(inFolder);
             int temp = inFolder.Length + 1;
             using TempFilePool tempFilePool = new TempFilePool();
             string tempFile = outFile;
-            if (pak.pc) tempFile = tempFilePool.Add();
+            if (pak.pc || pak.xmem) tempFile = tempFilePool.Add();
             using (BinaryStream bs_files = new BinaryStream(tempFile, FileMode.Create))
             {
                 bs_files.Encode = EncodeHelper.ANSI;
@@ -168,11 +174,12 @@ namespace PopStudio.Package.Pak
                         }
                     }
                 }
-                else
-                {
-                    if (pak.xmem) throw new Exception(Str.Obj.XmemCompressInvalid);
-                }
                 compressDictionary = null;
+            }
+            if (pak.xmem)
+            {
+                // The XMem TD wrapper compresses the complete, aligned console PAK.
+                XMem.XMemCompressLzxTdFile(tempFile, outFile, overwrite: true);
             }
         }
 
@@ -197,6 +204,7 @@ namespace PopStudio.Package.Pak
             Dir.NewDir(outFolder);
             outFolder += Const.PATHSEPARATOR;
             string tempName;
+            using TempFilePool tempFilePool = new TempFilePool();
             using (BinaryStream bs = new BinaryStream())
             {
                 bs.Encode = EncodeHelper.ANSI;
@@ -222,14 +230,10 @@ namespace PopStudio.Package.Pak
                         bs_origin.CopyTo(bs);
                         //bs.WriteBytes(bs_origin.ReadBytes((int)bs_origin.Length));
                     }
-                    else if (magic == -317524721) //0F F5 12 ED
+                    else if (magic == -317524721 || magic == 0x0FF512ED) //XMem TD, big/little endian
                     {
-                        //xmem compress file in xbox360
-                        //Invalid
-                        bs_origin.Endian = Endian.Big;
                         pak.xmem = true;
                         pak.compress = false;
-                        throw new Exception(Str.Obj.XmemCompressInvalid);
                     }
                     else if (magic == 67324752) //TV(zip)50 4B 03 04
                     {
@@ -239,6 +243,14 @@ namespace PopStudio.Package.Pak
                     {
                         throw new Exception();
                     }
+                }
+                if (pak.xmem)
+                {
+                    // Keep the expanded archive on disk, especially for mobile devices.
+                    string expandedPak = tempFilePool.Add();
+                    XMem.XMemDecompressLzxTdFile(inFile, expandedPak, overwrite: true);
+                    bs.BaseStream.Dispose();
+                    bs.BaseStream = File.OpenRead(expandedPak);
                 }
                 bs.Position = 0;
                 if (TVMode)
@@ -267,7 +279,7 @@ namespace PopStudio.Package.Pak
                                     {
                                         zLibStream.CopyTo(bs3);
                                         bs3.Position = 0;
-                                        firstbyte = bs3.ReadByte();
+                                        if (bs3.Length != 0) firstbyte = bs3.ReadByte();
                                     }
                                 }
                             }
@@ -278,7 +290,7 @@ namespace PopStudio.Package.Pak
                             {
                                 bs2.WriteBytes(bs.ReadBytes(pak.fileInfoLibrary[i].zsize));
                                 bs2.Position = 0;
-                                firstbyte = bs2.ReadByte();
+                                if (bs2.Length != 0) firstbyte = bs2.ReadByte();
                             }
                         }
                         if (changeimage && Path.GetExtension(tempName).ToLower() == ".ptx")

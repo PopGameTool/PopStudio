@@ -9,6 +9,7 @@
     <Import_RootNamespace>PopStudio</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\OtherProject\XMemCompressionDotNet\*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BombLib\PopAnim\PamXfl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BombLib\Reanim\Godot.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Atlas\AncientXml.cs" />

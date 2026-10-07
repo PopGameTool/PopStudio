@@ -14,7 +14,7 @@
 
         public string FolderNotFound => "Folder {0} is not exist";
 
-        public string XmemCompressInvalid => "Xmem compress is invalid";
+        public string XmemCompressInvalid => "The current PAK implementation does not support combining Xmem compression with PCVersion or ZlibCompress";
 
         public string UnknownFormat => "Unknown format";
 

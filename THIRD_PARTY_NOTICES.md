@@ -1,5 +1,21 @@
 # Third-party notices
 
+## XMemCompressionDotNet
+
+The managed XMem LZX TD codec in
+`PopStudio.Shared/YFTYLib/OtherProject/XMemCompressionDotNet` is vendored from
+[PopGameTool/XMemCompressionDotNet](https://github.com/PopGameTool/XMemCompressionDotNet),
+commit `edb9052b89bec72b7a1de51900a1274f0d0ede76`, with the owner's authorization.
+The C++ reference is [PopGameTool/XMemCompression](https://github.com/PopGameTool/XMemCompression),
+commit `3d369cbc6f7c3c0bf3e4bc881dfe58eeb72bb17e`.
+Both are maintained by the same organization as PopStudio. The upstream repositories
+do not contain a separate license file; no additional upstream license is asserted here.
+
+Local changes enable nullable annotations in the shared project, resolve a .NET 9
+array-copy overload, accelerate match comparison with bounded word reads, correct
+the 64 KiB / 256 KiB TD segment-pitch header fields, and reject truncated or invalid
+TD frames. No native DLL or NuGet package is required for this codec.
+
 ## Flash2Reanim
 
 The XFL-to-REANIM decoder is derived from
