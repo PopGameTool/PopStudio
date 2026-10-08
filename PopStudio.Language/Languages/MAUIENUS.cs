@@ -309,6 +309,8 @@
         public string Reanim_Choose2_Batch => "Path of out folder";
         public string Reanim_InFormat => "Format of in file";
         public string Reanim_OutFormat => "Format of out file";
+        public string Reanim_CompiledMismatch_Title => "Format may not match";
+        public string Reanim_CompiledMismatch_Text => "This .reanim.compiled looks like {0}, but the current input format is {1}. Switch?";
 
         //Particles
         public string Particles_Title => "Particles";
@@ -375,9 +377,15 @@
         //Share
         public string Share_FileNotFound => "File {0} does not exist! ";
         public string Share_FolderNotFound => "Folder {0} does not exist! ";
+        public string Share_InvalidPath => "Invalid path";
+        public string Share_ExtensionMismatch => "Extension mismatch, expected: {0}";
+        public string Share_DropNeedFile => "Please drop a file";
+        public string Share_DropNeedFolder => "Please drop a folder";
+        public string Share_DropRejected => "This path cannot be dropped here";
         public string Share_Finish => "Executing complete with {0} seconds";
         public string Share_Finish_NoTime => "Executing complete";
         public string Share_Wrong => "Executing error: {0}";
+        public string Share_ClickOpenFolder => "Click to open containing folder";
         public string Share_ChooseMode => "Select Operation Mode";
         public string Share_Choose => "Select";
         public string Share_Run => "Execution";

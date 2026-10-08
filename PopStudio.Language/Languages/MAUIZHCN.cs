@@ -309,6 +309,8 @@
         public string Reanim_Choose2_Batch => "请填写转换生成文件夹存放路径";
         public string Reanim_InFormat => "请选择被转换的文件格式";
         public string Reanim_OutFormat => "请选择转换生成文件格式";
+        public string Reanim_CompiledMismatch_Title => "格式似乎不匹配";
+        public string Reanim_CompiledMismatch_Text => "检测到该 .reanim.compiled 更像是 {0}，但当前输入格式为 {1}。是否切换？";
 
         //Particles
         public string Particles_Title => "Particles转码";
@@ -375,9 +377,15 @@
         //Share
         public string Share_FileNotFound => "文件{0}不存在！";
         public string Share_FolderNotFound => "文件夹{0}不存在！";
+        public string Share_InvalidPath => "路径无效";
+        public string Share_ExtensionMismatch => "后缀不匹配，期望：{0}";
+        public string Share_DropNeedFile => "请拖入文件";
+        public string Share_DropNeedFolder => "请拖入文件夹";
+        public string Share_DropRejected => "不支持拖入该路径";
         public string Share_Finish => "执行完成，共耗时{0}秒";
         public string Share_Finish_NoTime => "执行完成";
         public string Share_Wrong => "执行异常：{0}";
+        public string Share_ClickOpenFolder => "点击打开所在文件夹";
         public string Share_ChooseMode => "请选择运行模式";
         public string Share_Choose => "选择";
         public string Share_Run => "运行";

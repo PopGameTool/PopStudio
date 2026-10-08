@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using PopStudio.Avalonia.Drop;
 using PopStudio.Language.Languages;
 using System.Diagnostics;
 using PopStudio.Platform;
@@ -20,6 +21,11 @@ namespace PopStudio.Avalonia.Pages
             CB_CMode.Items.Add("pak");
             CB_CMode.Items.Add("arcv");
             CB_CMode.SelectedIndex = 0;
+            CB_CMode.SelectionChanged += (_, __) =>
+            {
+                PathHint.Refresh(textbox1);
+                PathHint.Refresh(textbox2);
+            };
             MAUIStr.OnLanguageChanged += LoadFont;
         }
 
@@ -56,6 +62,49 @@ namespace PopStudio.Avalonia.Pages
             switchchange1 = this.Get<ToggleSwitch>("switchchange1");
             switchchange2 = this.Get<ToggleSwitch>("switchchange2");
             CB_CMode = this.Get<ComboBox>("CB_CMode");
+            DropAccept.AttachPathDrop(textbox1, SetInputFromDrop, () => PathRule.ExistingFileOrFolder(PathExt.Package));
+            PathHint.Attach(textbox1, GetInputRule);
+            DropAccept.AttachPathBox(textbox2, path => textbox2.Text = path, GetOutputRule);
+        }
+
+        PathRule GetInputRule()
+        {
+            return switchmode.IsChecked == true
+                ? PathRule.ExistingFolder()
+                : PathRule.ExistingFile(PathExt.Package);
+        }
+
+        PathRule GetOutputRule()
+        {
+            return switchmode.IsChecked == true
+                ? PathRule.SaveFile(PathExt.PackageByIndex(CB_CMode.SelectedIndex))
+                : PathRule.SaveFolder();
+        }
+
+        void SetInputFromDrop(string path)
+        {
+            bool pack = Directory.Exists(path);
+            if ((switchmode.IsChecked == true) != pack)
+            {
+                switchmode.IsChecked = pack;
+            }
+            textbox1.Text = path;
+            if (!pack)
+            {
+                string ext = Path.GetExtension(path).TrimStart('.').ToLowerInvariant();
+                int idx = ext switch
+                {
+                    "dz" => 0,
+                    "rsb" => 1,
+                    "pak" => 2,
+                    "arcv" => 3,
+                    _ => -1
+                };
+                if (idx >= 0)
+                {
+                    CB_CMode.SelectedIndex = idx;
+                }
+            }
         }
 
         void LoadFont()
@@ -70,7 +119,7 @@ namespace PopStudio.Avalonia.Pages
             button1.Content = MAUIStr.Obj.Share_Choose;
             button2.Content = MAUIStr.Obj.Share_Choose;
             label_statue.Text = MAUIStr.Obj.Share_RunStatue;
-            text4.Text = MAUIStr.Obj.Share_Waiting;
+            FinishStatus.Set(text4, MAUIStr.Obj.Share_Waiting);
             button_run.Content = MAUIStr.Obj.Share_Run;
         }
 
@@ -104,6 +153,8 @@ namespace PopStudio.Avalonia.Pages
                     change.IsVisible = true;
                 }
                 (textbox1.Text, textbox2.Text) = (textbox2.Text, textbox1.Text);
+                PathHint.Refresh(textbox1);
+                PathHint.Refresh(textbox2);
             }
         }
 
@@ -114,12 +165,11 @@ namespace PopStudio.Avalonia.Pages
                 string val;
                 if (switchmode.IsChecked == true)
                 {
-                    val = await new OpenFolderDialog().ShowAsync(MainWindow.Singleten);
+                    val = await StorageDialog.OpenFolderAsync();
                 }
                 else
                 {
-                    val = (await new OpenFileDialog { AllowMultiple = false }.ShowAsync(MainWindow.Singleten))?[0];
-
+                    val = await StorageDialog.OpenFileAsync(PathExt.Package);
                 }
                 if (!string.IsNullOrEmpty(val)) textbox1.Text = val;
             }
@@ -135,11 +185,11 @@ namespace PopStudio.Avalonia.Pages
                 string val;
                 if (switchmode.IsChecked == true)
                 {
-                    val = await new SaveFileDialog().ShowAsync(MainWindow.Singleten);
+                    val = await StorageDialog.SaveFileAsync(PathExt.PackageByIndex(CB_CMode.SelectedIndex));
                 }
                 else
                 {
-                    val = await new OpenFolderDialog().ShowAsync(MainWindow.Singleten);
+                    val = await StorageDialog.OpenFolderAsync();
                 }
                 if (!string.IsNullOrEmpty(val)) textbox2.Text = val;
             }
@@ -152,7 +202,7 @@ namespace PopStudio.Avalonia.Pages
         {
             Button b = (Button)sender;
             b.IsEnabled = false;
-            text4.Text = MAUIStr.Obj.Share_Running;
+            FinishStatus.Set(text4, MAUIStr.Obj.Share_Running);
             bool mode = switchmode.IsChecked == true;
             string inFile = textbox1.Text;
             string outFile = textbox2.Text;
@@ -193,11 +243,11 @@ namespace PopStudio.Avalonia.Pages
                 {
                     if (err == null)
                     {
-                        text4.Text = string.Format(MAUIStr.Obj.Share_Finish, time.ToString("F3"));
+                        FinishStatus.ShowFinish(text4, time.ToString("F3"), outFile);
                     }
                     else
                     {
-                        text4.Text = string.Format(MAUIStr.Obj.Share_Wrong, err);
+                        FinishStatus.ShowWrong(text4, err);
                     }
                     b.IsEnabled = true;
                 });

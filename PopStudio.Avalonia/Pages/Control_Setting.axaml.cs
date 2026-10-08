@@ -526,7 +526,7 @@ namespace PopStudio.Avalonia.Pages
                 }
                 else if (result == MAUIStr.Obj.Setting_CompiledLoadFromFile)
                 {
-                    string path = (await new OpenFileDialog().ShowAsync(MainWindow.Singleten))?[0];
+                    string path = await StorageDialog.OpenFileAsync();
                     if (string.IsNullOrEmpty(path)) return;
                     Setting.ClearImageConvertXml();
                     Setting.LoadImageConvertXml(path);

@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using PopStudio.Avalonia.Drop;
 using PopStudio.Language.Languages;
 using System.Diagnostics;
 using PopStudio.Platform;
@@ -101,6 +102,46 @@ namespace PopStudio.Avalonia.Pages
             CB_CMode = this.Get<ComboBox>("CB_CMode");
             CB_FMode = this.Get<ComboBox>("CB_FMode");
             SP_FMode = this.Get<StackPanel>("SP_FMode");
+            DropAccept.AttachPathDrop(textbox1, SetInputFromDrop, () => PathRule.ExistingFileOrFolder(GetTextureInputExt()));
+            PathHint.Attach(textbox1, GetInputRule);
+            DropAccept.AttachPathBox(textbox2, path => textbox2.Text = path, GetOutputRule);
+            CB_CMode.SelectionChanged += (_, __) =>
+            {
+                PathHint.Refresh(textbox1);
+                PathHint.Refresh(textbox2);
+            };
+        }
+
+        string GetTextureInputExt()
+        {
+            return TB_Mode.IsChecked == true ? ".png" : PathExt.TextureByIndex(CB_CMode.SelectedIndex);
+        }
+
+        string GetTextureOutputExt()
+        {
+            return TB_Mode.IsChecked == true ? PathExt.TextureByIndex(CB_CMode.SelectedIndex) : ".png";
+        }
+
+        PathRule GetInputRule()
+        {
+            return batch_mode.IsChecked == true
+                ? PathRule.ExistingFolder()
+                : PathRule.ExistingFile(GetTextureInputExt());
+        }
+
+        PathRule GetOutputRule()
+        {
+            return batch_mode.IsChecked == true
+                ? PathRule.SaveFolder()
+                : PathRule.SaveFile(GetTextureOutputExt());
+        }
+
+        void SetInputFromDrop(string path)
+        {
+            batch_mode.IsChecked = Directory.Exists(path);
+            textbox1.Text = path;
+            PathHint.Refresh(textbox1);
+            PathHint.Refresh(textbox2);
         }
 
         void LoadFont()
@@ -126,7 +167,7 @@ namespace PopStudio.Avalonia.Pages
             button2.Content = MAUIStr.Obj.Share_Choose;
             button_run.Content = MAUIStr.Obj.Share_Run;
             label_statue.Text = MAUIStr.Obj.Share_RunStatue;
-            text4.Text = MAUIStr.Obj.Share_Waiting;
+            FinishStatus.Set(text4, MAUIStr.Obj.Share_Waiting);
         }
 
         void LoadFont_Checked(bool v)
@@ -177,19 +218,25 @@ namespace PopStudio.Avalonia.Pages
                     SP_FMode.IsVisible = false;
                 }
                 (textbox1.Text, textbox2.Text) = (textbox2.Text, textbox1.Text);
+                PathHint.Refresh(textbox1);
+                PathHint.Refresh(textbox2);
             }
         }
 
         private void Switch_Batch_Checked(object sender, RoutedEventArgs e)
         {
             LoadFont();
+            PathHint.Refresh(textbox1);
+            PathHint.Refresh(textbox2);
         }
 
         private async void Button1_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                string val = batch_mode.IsChecked == false ? (await new OpenFileDialog { AllowMultiple = false }.ShowAsync(MainWindow.Singleten))?[0] : (await new OpenFolderDialog().ShowAsync(MainWindow.Singleten));
+                string val = batch_mode.IsChecked == false
+                    ? await StorageDialog.OpenFileAsync(GetTextureInputExt())
+                    : await StorageDialog.OpenFolderAsync();
                 if (!string.IsNullOrEmpty(val)) textbox1.Text = val;
             }
             catch (Exception)
@@ -201,7 +248,9 @@ namespace PopStudio.Avalonia.Pages
         {
             try
             {
-                string val = batch_mode.IsChecked == false ? (await new SaveFileDialog().ShowAsync(MainWindow.Singleten)) : (await new OpenFolderDialog().ShowAsync(MainWindow.Singleten));
+                string val = batch_mode.IsChecked == false
+                    ? await StorageDialog.SaveFileAsync(GetTextureOutputExt())
+                    : await StorageDialog.OpenFolderAsync();
                 if (!string.IsNullOrEmpty(val)) textbox2.Text = val;
             }
             catch (Exception)
@@ -213,7 +262,7 @@ namespace PopStudio.Avalonia.Pages
         {
             Button b = (Button)sender;
             b.IsEnabled = false;
-            text4.Text = MAUIStr.Obj.Share_Running;
+            FinishStatus.Set(text4, MAUIStr.Obj.Share_Running);
             bool mode = TB_Mode.IsChecked == true;
             string inFile = textbox1.Text;
             string outFile = textbox2.Text;
@@ -321,11 +370,11 @@ namespace PopStudio.Avalonia.Pages
                 {
                     if (err == null)
                     {
-                        text4.Text = string.Format(MAUIStr.Obj.Share_Finish, time.ToString("F3"));
+                        FinishStatus.ShowFinish(text4, time.ToString("F3"), outFile);
                     }
                     else
                     {
-                        text4.Text = string.Format(MAUIStr.Obj.Share_Wrong, err);
+                        FinishStatus.ShowWrong(text4, err);
                     }
                     b.IsEnabled = true;
                 });
