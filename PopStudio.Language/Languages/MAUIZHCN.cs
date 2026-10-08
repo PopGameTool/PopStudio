@@ -309,6 +309,8 @@
         public string Reanim_Choose2_Batch => "请填写转换生成文件夹存放路径";
         public string Reanim_InFormat => "请选择被转换的文件格式";
         public string Reanim_OutFormat => "请选择转换生成文件格式";
+        public string Reanim_PredictTweens => "预测补间（实验性）";
+        public string Reanim_PredictTweensHint => "合并静止帧并拟合线性补间，减少关键帧以方便编辑。复杂变化保留逐帧；关闭时保持逐帧导出。";
 
         //Particles
         public string Particles_Title => "Particles转码";

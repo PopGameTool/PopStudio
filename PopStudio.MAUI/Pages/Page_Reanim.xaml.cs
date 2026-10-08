@@ -13,6 +13,8 @@ namespace PopStudio.MAUI
             text2.Text = MAUIStr.Obj.Reanim_Choose2;
             text_in.Text = MAUIStr.Obj.Reanim_InFormat;
             text_out.Text = MAUIStr.Obj.Reanim_OutFormat;
+            predict_tweens_label.Text = MAUIStr.Obj.Reanim_PredictTweens;
+            predict_tweens_hint.Text = MAUIStr.Obj.Reanim_PredictTweensHint;
             button1.Text = MAUIStr.Obj.Share_Choose;
             button2.Text = MAUIStr.Obj.Share_Choose;
             button_run.Text = MAUIStr.Obj.Share_Run;
@@ -49,12 +51,18 @@ namespace PopStudio.MAUI
             CB_OutMode.Items.Add("Godot_Anim");
             CB_OutMode.Items.Add("Flash_Fla");
             CB_OutMode.SelectedIndex = 7;
+            CB_OutMode.SelectedIndexChanged += OutputFormatChanged;
             MAUIStr.OnLanguageChanged += LoadFont;
         }
 
         ~Page_Reanim()
         {
             MAUIStr.OnLanguageChanged -= LoadFont;
+        }
+
+        private void OutputFormatChanged(object sender, EventArgs e)
+        {
+            tween_options.IsVisible = CB_OutMode.SelectedIndex == 8 || CB_OutMode.SelectedIndex == 10;
         }
 
         private void Button_Click(object sender, EventArgs e)
@@ -66,6 +74,7 @@ namespace PopStudio.MAUI
             string outFile = textbox2.Text;
             int inmode = CB_InMode.SelectedIndex;
             int outmode = CB_OutMode.SelectedIndex;
+            bool predictTweens = (outmode == 8 || outmode == 10) && predict_tweens.IsChecked;
             new Thread(new ThreadStart(() =>
             {
                 string err = null;
@@ -77,7 +86,7 @@ namespace PopStudio.MAUI
                     {
                         throw new Exception(string.Format(MAUIStr.Obj.Share_FileNotFound, inFile));
                     }
-                    YFAPI.Reanim(inFile, outFile, inmode, outmode);
+                    YFAPI.Reanim(inFile, outFile, inmode, outmode, predictTweens);
                 }
                 catch (Exception ex)
                 {

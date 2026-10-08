@@ -62,11 +62,11 @@ namespace PopStudio.Platform
             ConsoleWriter.WriteSuccessLine(MAUIStr.Obj.Share_Finish, s.ElapsedMilliseconds / 1000m);
         }
 
-        public override void InternalParseReanim(string inFile, string outFile, int outformat)
+        public override void InternalParseReanim(string inFile, string outFile, int outformat, bool predictTweens = false)
         {
             Stopwatch s = new Stopwatch();
             s.Start();
-            base.InternalParseReanim(inFile, outFile, outformat);
+            base.InternalParseReanim(inFile, outFile, outformat, predictTweens);
             s.Stop();
             ConsoleWriter.WriteSuccessLine(MAUIStr.Obj.Share_Finish, s.ElapsedMilliseconds / 1000m);
         }

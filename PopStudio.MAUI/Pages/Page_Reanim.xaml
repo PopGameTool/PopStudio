@@ -29,6 +29,13 @@
             <Picker x:Name="CB_InMode" />
             <Label x:Name="text_out" />
             <Picker x:Name="CB_OutMode" />
+            <VerticalStackLayout x:Name="tween_options" IsVisible="False" Spacing="4">
+                <HorizontalStackLayout Spacing="8">
+                    <CheckBox x:Name="predict_tweens" IsChecked="False" />
+                    <Label x:Name="predict_tweens_label" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Label x:Name="predict_tweens_hint" FontSize="14" />
+            </VerticalStackLayout>
             <Button x:Name="button_run" Clicked="Button_Click" />
             <Label x:Name="label_statue" />
             <Label x:Name="text4" />

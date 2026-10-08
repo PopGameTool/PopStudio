@@ -15,13 +15,13 @@ namespace PopStudio.Reanim
 
         public static bool IsZipXfl(string inFile) => FlashXflDecoder.IsZipXflFile(inFile);
 
-        public static void Encode(Reanim reanim, string outFile)
+        public static void Encode(Reanim reanim, string outFile, bool predictTweens = false)
         {
             string temporaryDirectory = Path.Combine(Path.GetTempPath(), TemporaryDirectoryPrefix + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(temporaryDirectory);
             try
             {
-                FlashXfl.Encode(reanim, temporaryDirectory);
+                FlashXfl.Encode(reanim, temporaryDirectory, predictTweens);
                 using FileStream output = new FileStream(outFile, FileMode.Create, FileAccess.Write, FileShare.None);
                 using ZipArchive archive = new ZipArchive(output, ZipArchiveMode.Create, false);
                 foreach (string file in Directory.GetFiles(temporaryDirectory, "*", SearchOption.AllDirectories).OrderBy(path => path, StringComparer.Ordinal))

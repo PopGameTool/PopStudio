@@ -38,6 +38,7 @@ namespace PopStudio.Avalonia.Pages
             CB_OutMode.Items.Add("Godot_Anim");
             CB_OutMode.Items.Add("Flash_Fla");
             CB_OutMode.SelectedIndex = 7;
+            CB_OutMode.SelectionChanged += OutputFormatChanged;
             MAUIStr.OnLanguageChanged += LoadFont;
         }
 
@@ -70,6 +71,9 @@ namespace PopStudio.Avalonia.Pages
             textbox2 = this.Get<TextBox>("textbox2");
             CB_InMode = this.Get<ComboBox>("CB_InMode");
             CB_OutMode = this.Get<ComboBox>("CB_OutMode");
+            tween_options = this.Get<StackPanel>("tween_options");
+            predict_tweens = this.Get<CheckBox>("predict_tweens");
+            predict_tweens_hint = this.Get<TextBlock>("predict_tweens_hint");
         }
 
         void LoadFont()
@@ -89,11 +93,18 @@ namespace PopStudio.Avalonia.Pages
             }
             text_in.Text = MAUIStr.Obj.Reanim_InFormat;
             text_out.Text = MAUIStr.Obj.Reanim_OutFormat;
+            predict_tweens.Content = MAUIStr.Obj.Reanim_PredictTweens;
+            predict_tweens_hint.Text = MAUIStr.Obj.Reanim_PredictTweensHint;
             button1.Content = MAUIStr.Obj.Share_Choose;
             button2.Content = MAUIStr.Obj.Share_Choose;
             button_run.Content = MAUIStr.Obj.Share_Run;
             label_statue.Text = MAUIStr.Obj.Share_RunStatue;
             text4.Text = MAUIStr.Obj.Share_Waiting;
+        }
+
+        private void OutputFormatChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tween_options.IsVisible = CB_OutMode.SelectedIndex == 8 || CB_OutMode.SelectedIndex == 10;
         }
 
         private void Switch_Batch_Checked(object sender, RoutedEventArgs e)
@@ -137,6 +148,7 @@ namespace PopStudio.Avalonia.Pages
             int inmode = CB_InMode.SelectedIndex;
             int outmode = CB_OutMode.SelectedIndex;
             bool batchmode = batch_mode.IsChecked == true;
+            bool predictTweens = (outmode == 8 || outmode == 10) && predict_tweens.IsChecked == true;
             new Thread(new ThreadStart(() =>
             {
                 string err = null;
@@ -197,7 +209,7 @@ namespace PopStudio.Avalonia.Pages
                             YFAPI.NewDir(newPath, false);
                             try
                             {
-                                YFAPI.Reanim(mfile, newPath, inmode, outmode);
+                                YFAPI.Reanim(mfile, newPath, inmode, outmode, predictTweens);
                             }
                             catch (Exception)
                             {
@@ -220,7 +232,7 @@ namespace PopStudio.Avalonia.Pages
                             outFile = YFAPI.FormatPath(outFile);
                         }
                         YFAPI.NewDir(outFile, false);
-                        YFAPI.Reanim(inFile, outFile, inmode, outmode);
+                        YFAPI.Reanim(inFile, outFile, inmode, outmode, predictTweens);
                     }
                 }
                 catch (Exception ex)

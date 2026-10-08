@@ -313,6 +313,8 @@
         public string Reanim_Choose2_Batch { get; }
         public string Reanim_InFormat { get; }
         public string Reanim_OutFormat { get; }
+        public string Reanim_PredictTweens { get; }
+        public string Reanim_PredictTweensHint { get; }
 
         //Particles
         public string Particles_Title { get; }

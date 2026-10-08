@@ -9,11 +9,12 @@ namespace PopStudio.Reanim
     {
         public static Reanim Decode(string inFile) => FlashXflDecoder.Decode(inFile);
 
-        public static void Encode(Reanim reanim, string outFile)
+        public static void Encode(Reanim reanim, string outFile, bool predictTweens = false)
         {
             UseLabelName = Setting.ReanimXflLabelName;
             ScaleX = Setting.ReanimXflScaleX;
             ScaleY = Setting.ReanimXflScaleY;
+            bool[] boundaries = predictTweens && reanim.tracks.Length > 0 ? FlashTweenPredictor.GetBoundaries(reanim) : null;
             outFile = Dir.FormatPath(outFile) + Const.PATHSEPARATOR;
             string outFile_Library = outFile + "LIBRARY";
             Dir.NewDir(outFile_Library);
@@ -59,6 +60,8 @@ namespace PopStudio.Reanim
                         a = 1
                     };
                     ReanimTrack track = reanim.tracks[i];
+                    FlashTweenPredictor.Span[] spans = predictTweens
+                        ? FlashTweenPredictor.Predict(track, boundaries, ScaleX, ScaleY) : null;
                     sw.Write("                <DOMLayer name=\"");
                     sw.Write(track.name);
                     sw.Write("\">\n");
@@ -107,8 +110,18 @@ namespace PopStudio.Reanim
                             }
                         }
                         #endregion
+                        if (spans != null && spans[j].Duration == 0) continue;
                         sw.Write("                        <DOMFrame index=\"");
                         sw.Write(j);
+                        if (spans != null)
+                        {
+                            sw.Write("\" duration=\"");
+                            sw.Write(spans[j].Duration);
+                            if (spans[j].Tween)
+                            {
+                                sw.Write("\" tweenType=\"motion\" keyMode=\"22017\" acceleration=\"0\" motionTweenRotate=\"auto\" motionTweenScale=\"true");
+                            }
+                        }
                         sw.Write("\">\n");
                         if (defaultTransform.f != -1)
                         {
@@ -153,6 +166,12 @@ namespace PopStudio.Reanim
                             #endregion
                             sw.Write("/>\n");
                             sw.Write("                                    </matrix>\n");
+                            if (predictTweens)
+                            {
+                                // Use the symbol origin as the pivot so translation
+                                // remains independent of rotation and scale.
+                                sw.Write("                                    <transformationPoint><Point x=\"0\" y=\"0\" /></transformationPoint>\n");
+                            }
                             #region alpha
                             if (defaultTransform.a != 1)
                             {

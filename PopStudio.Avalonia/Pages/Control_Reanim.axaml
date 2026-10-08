@@ -41,6 +41,10 @@
 			<ComboBox FontSize="16" Margin="0 5 0 5" x:Name="CB_InMode" />
 			<TextBlock TextWrapping="Wrap" FontSize="20" Margin="0 5 0 5" x:Name="text_out" />
 			<ComboBox FontSize="16" Margin="0 5 0 5" x:Name="CB_OutMode" />
+			<StackPanel x:Name="tween_options" IsVisible="False" Margin="0 5 0 5">
+				<CheckBox x:Name="predict_tweens" IsChecked="False" />
+				<TextBlock x:Name="predict_tweens_hint" TextWrapping="Wrap" FontSize="14" />
+			</StackPanel>
 			<Button Margin="0 5 0 5" x:Name="button_run" Click="ButtonRun_Click" />
 			<TextBlock TextWrapping="Wrap" FontSize="20" Margin="0 5 0 5" x:Name="label_statue" />
 			<TextBlock TextWrapping="Wrap" FontSize="20" Margin="0 5 0 5" x:Name="text4" />

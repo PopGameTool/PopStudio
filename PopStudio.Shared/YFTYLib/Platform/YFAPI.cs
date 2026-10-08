@@ -54,13 +54,13 @@
 
         public static void EncodeImage(string inFile, string outFile, int format, int format2) => InternalYFAPI.InternalEncodeImage(inFile, outFile, format, format2);
 
-        public static void ParseReanim(string inFile, string outFile, int outformat) => InternalYFAPI.InternalParseReanim(inFile, outFile, outformat);
+        public static void ParseReanim(string inFile, string outFile, int outformat, bool predictTweens = false) => InternalYFAPI.InternalParseReanim(inFile, outFile, outformat, predictTweens);
 
         public static void ParseTrail(string inFile, string outFile, int outformat) => InternalYFAPI.InternalParseTrail(inFile, outFile, outformat);
 
         public static void ParseParticles(string inFile, string outFile, int outformat) => InternalYFAPI.InternalParseParticles(inFile, outFile, outformat);
 
-        public static void Reanim(string inFile, string outFile, int informat, int outformat) => InternalYFAPI.InternalReanim(inFile, outFile, informat, outformat);
+        public static void Reanim(string inFile, string outFile, int informat, int outformat, bool predictTweens = false) => InternalYFAPI.InternalReanim(inFile, outFile, informat, outformat, predictTweens);
 
         public static void Trail(string inFile, string outFile, int informat, int outformat) => InternalYFAPI.InternalTrail(inFile, outFile, informat, outformat);
 
@@ -244,7 +244,7 @@
             }
         }
 
-        public virtual void InternalParseReanim(string inFile, string outFile, int outformat)
+        public virtual void InternalParseReanim(string inFile, string outFile, int outformat, bool predictTweens = false)
         {
             Reanim.Reanim reanim = null;
             bool isFla = PopStudio.Reanim.FlashFla.IsZipXfl(inFile);
@@ -293,9 +293,9 @@
                 case 5: PopStudio.Reanim.TV.Encode(reanim, outFile); break;
                 case 6: PopStudio.Reanim.ReanimJson.Encode(reanim, outFile); break;
                 case 7: PopStudio.Reanim.RawXml.Encode(reanim, outFile); break;
-                case 8: PopStudio.Reanim.FlashXfl.Encode(reanim, outFile); break;
+                case 8: PopStudio.Reanim.FlashXfl.Encode(reanim, outFile, predictTweens); break;
                 case 9: PopStudio.Reanim.Godot.Encode(reanim, outFile); break;
-                case 10: PopStudio.Reanim.FlashFla.Encode(reanim, outFile); break;
+                case 10: PopStudio.Reanim.FlashFla.Encode(reanim, outFile, predictTweens); break;
                 default: throw new NotImplementedException();
             }
         }
@@ -380,7 +380,7 @@
             }
         }
 
-        public virtual void InternalReanim(string inFile, string outFile, int informat, int outformat)
+        public virtual void InternalReanim(string inFile, string outFile, int informat, int outformat, bool predictTweens = false)
         {
             Reanim.Reanim reanim = informat switch
             {
@@ -406,9 +406,9 @@
                 case 5: PopStudio.Reanim.TV.Encode(reanim, outFile); break;
                 case 6: PopStudio.Reanim.ReanimJson.Encode(reanim, outFile); break;
                 case 7: PopStudio.Reanim.RawXml.Encode(reanim, outFile); break;
-                case 8: PopStudio.Reanim.FlashXfl.Encode(reanim, outFile); break;
+                case 8: PopStudio.Reanim.FlashXfl.Encode(reanim, outFile, predictTweens); break;
                 case 9: PopStudio.Reanim.Godot.Encode(reanim, outFile); break;
-                case 10: PopStudio.Reanim.FlashFla.Encode(reanim, outFile); break;
+                case 10: PopStudio.Reanim.FlashFla.Encode(reanim, outFile, predictTweens); break;
                 default: throw new NotImplementedException();
             }
         }

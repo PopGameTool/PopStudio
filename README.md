@@ -22,6 +22,9 @@ decode and encode txz(including Android and iOS)
 decode and encode xnb(including WindowsPhone)  
 decode and encode reanim.compiled(including Windows, MacOS, Android, iOS, WindowsPhone, PS3, PSV and Xbox360)  
 convert reanim formats to and from unpacked XFL projects and modern ZIP-based FLA files
+
+When exporting XFL/FLA, the optional **Predict tweens (experimental)** checkbox merges holds and fits linear classic tweens. It is off by default and also applies to batch conversion. Image/visibility changes and action-marker boundaries retain keys. Changing skew and ambiguous transforms keep explicit frames; original easing curves are not recovered. Fitting tolerances per sample are approximately 0.05 pixels per position axis, 0.05 degrees per angle, 0.0005 per scale, and 0.005 alpha. These are property tolerances, not a bound on the displacement of every pixel in a large sprite. The console asks for this option when exporting XFL/FLA (`T` enables it). Lua accepts an optional final boolean: `rainy.reanim(input, output, inputFormat, outputFormat, true)` or `rainy.parsereanim(input, output, outputFormat, true)`.
+
 decode and encode xml.compiled(including Windows, MacOS, Android, iOS, WindowsPhone, PS3, PSV and Xbox360)  
 decode and encode trail.compiled(including Windows, MacOS, Android, iOS, WindowsPhone, PS3, PSV and Xbox360)  
 decode and encode pam(including version 1-6)  
@@ -69,6 +72,9 @@ In Chinese:
 解码编码xnb（包括WindowsPhone）  
 解码编码reanim.compiled(包括Windows，MacOS，Android，iOS，WindowsPhone，PS3，PSV和Xbox360)  
 在未打包的XFL工程、现代ZIP型FLA文件与任意已支持的reanim格式之间转换
+
+导出 XFL/FLA 时可勾选“**预测补间（实验性）**”，合并静止帧并拟合线性传统补间，默认关闭，也适用于批量转换。换图、显隐变化和动作标记边界保留关键帧；变化中的倾斜及不确定的变换保留逐帧，不恢复原始缓动曲线。每帧拟合容差约为位置每轴 0.05 像素、角度 0.05 度、缩放比例 0.0005、透明度 0.005；这些是属性误差，不代表大尺寸图片上所有像素的位移上限。控制台导出时也会询问此选项（输入 `T` 启用）。Lua 的 `rainy.reanim` 和 `rainy.parsereanim` 可在原有参数后追加 `true` 启用。
+
 解码编码xml.compiled(包括Windows，MacOS，Android，iOS，WindowsPhone，PS3，PSV和Xbox360)  
 解码编码trail.compiled(包括Windows，MacOS，Android，iOS，WindowsPhone，PS3，PSV和Xbox360)  
 解码编码pam（包括版本号1-6的）  

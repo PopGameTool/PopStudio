@@ -163,10 +163,12 @@ namespace PopStudio.ConsoleProject
                     YFAPI.ParseReanim(filePath, HandleRPTExtension(filePath, ".reanim"), 7);
                     break;
                 case CommandCode.Reanim_ToFlashXfl:
-                    YFAPI.ParseReanim(filePath, HandleRPTExtension(filePath, null), 8);
+                    YFAPI.ParseReanim(filePath, HandleRPTExtension(filePath, null), 8,
+                        ConsoleReader.ReadBoolean(MAUIStr.Obj.Reanim_PredictTweens));
                     break;
                 case CommandCode.Reanim_ToFlashFla:
-                    YFAPI.ParseReanim(filePath, HandleRPTExtension(filePath, ".fla"), 10);
+                    YFAPI.ParseReanim(filePath, HandleRPTExtension(filePath, ".fla"), 10,
+                        ConsoleReader.ReadBoolean(MAUIStr.Obj.Reanim_PredictTweens));
                     break;
                 case CommandCode.Particles_ToPCCompiled:
                     YFAPI.ParseParticles(filePath, HandleRPTExtension(filePath, ".xml.compiled"), 0);

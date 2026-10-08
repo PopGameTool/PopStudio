@@ -309,6 +309,8 @@
         public string Reanim_Choose2_Batch => "Path of out folder";
         public string Reanim_InFormat => "Format of in file";
         public string Reanim_OutFormat => "Format of out file";
+        public string Reanim_PredictTweens => "Predict tweens (experimental)";
+        public string Reanim_PredictTweensHint => "Merge holds and fit linear tweens for easier editing. Complex changes keep their keyframes. Turn off to export every frame.";
 
         //Particles
         public string Particles_Title => "Particles";

@@ -324,13 +324,13 @@ namespace PopStudio.LuaScript
         {
             try
             {
-                object[] n = new object[3];
+                object[] n = new object[4];
                 int min = args.Length > n.Length ? n.Length : args.Length;
                 for (int i = 0; i < min; i++)
                 {
                     n[i] = args[i];
                 }
-                YFAPI.ParseReanim(n[0]?.ToString(), n[1]?.ToString(), Convert.ToInt32(n[2] ?? "-1"));
+                YFAPI.ParseReanim(n[0]?.ToString(), n[1]?.ToString(), Convert.ToInt32(n[2] ?? "-1"), Convert.ToBoolean(n[3] ?? false));
             }
             catch (Exception ex)
             {
@@ -381,13 +381,13 @@ namespace PopStudio.LuaScript
         {
             try
             {
-                object[] n = new object[4];
+                object[] n = new object[5];
                 int min = args.Length > n.Length ? n.Length : args.Length;
                 for (int i = 0; i < min; i++)
                 {
                     n[i] = args[i];
                 }
-                YFAPI.Reanim(n[0]?.ToString(), n[1]?.ToString(), Convert.ToInt32(n[2] ?? "-1"), Convert.ToInt32(n[3] ?? "-1"));
+                YFAPI.Reanim(n[0]?.ToString(), n[1]?.ToString(), Convert.ToInt32(n[2] ?? "-1"), Convert.ToInt32(n[3] ?? "-1"), Convert.ToBoolean(n[4] ?? false));
             }
             catch (Exception ex)
             {
