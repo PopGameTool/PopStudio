@@ -14,6 +14,7 @@ namespace PopStudio.Avalonia.Pages
         {
             InitializeComponent();
             LoadControl();
+            FilePathDrop.Enable(textbox1, textbox2);
             LoadFont();
             CB_CMode.Items.Add("Simple RTON");
             CB_CMode.Items.Add("Encrypted RTON");
@@ -56,6 +57,7 @@ namespace PopStudio.Avalonia.Pages
 
         void LoadFont()
         {
+            textbox1.Watermark = textbox2.Watermark = MAUIStr.Obj.Share_DropPathHint;
             label_batch1.Text = MAUIStr.Obj.Share_SingleMode;
             label_batch2.Text = MAUIStr.Obj.Share_BatchMode;
             label_introduction.Text = MAUIStr.Obj.RTON_Introduction;

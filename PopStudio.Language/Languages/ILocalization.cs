@@ -385,6 +385,7 @@
         public string Share_Wrong { get; }
         public string Share_ChooseMode { get; }
         public string Share_Choose { get; }
+        public string Share_DropPathHint { get; }
         public string Share_Run { get; }
         public string Share_RunStatue { get; }
         public string Share_Waiting { get; }

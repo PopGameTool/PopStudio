@@ -14,6 +14,7 @@ namespace PopStudio.Avalonia.Pages
         {
             InitializeComponent();
             LoadControl();
+            FilePathDrop.Enable(textbox1, textbox2, textbox3);
             LoadFont();
             CB_Mode.Items.Add("RESOURCES.XML(Rsb)");
             CB_Mode.Items.Add("resources.xml(Old)");
@@ -82,6 +83,7 @@ namespace PopStudio.Avalonia.Pages
 
         void LoadFont()
         {
+            textbox1.Watermark = textbox2.Watermark = textbox3.Watermark = MAUIStr.Obj.Share_DropPathHint;
             label_introduction.Text = MAUIStr.Obj.Atlas_Introduction;
             label_choosemode.Text = MAUIStr.Obj.Share_ChooseMode;
             label_mode1.Text = MAUIStr.Obj.Atlas_Mode1;

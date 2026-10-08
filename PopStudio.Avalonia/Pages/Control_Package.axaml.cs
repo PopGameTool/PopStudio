@@ -14,6 +14,7 @@ namespace PopStudio.Avalonia.Pages
         {
             InitializeComponent();
             LoadControl();
+            FilePathDrop.Enable(textbox1, textbox2);
             LoadFont();
             CB_CMode.Items.Add("dz");
             CB_CMode.Items.Add("rsb");
@@ -60,6 +61,7 @@ namespace PopStudio.Avalonia.Pages
 
         void LoadFont()
         {
+            textbox1.Watermark = textbox2.Watermark = MAUIStr.Obj.Share_DropPathHint;
             label_mode1.Text = MAUIStr.Obj.Package_Mode1;
             label_mode2.Text = MAUIStr.Obj.Package_Mode2;
             label_introduction.Text = MAUIStr.Obj.Package_Introduction;
