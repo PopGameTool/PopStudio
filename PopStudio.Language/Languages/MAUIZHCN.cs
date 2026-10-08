@@ -382,6 +382,7 @@
         public string Share_Wrong => "执行异常：{0}";
         public string Share_ChooseMode => "请选择运行模式";
         public string Share_Choose => "选择";
+        public string Share_DropPathHint => "输入路径，或将文件/文件夹拖到这里";
         public string Share_Run => "运行";
         public string Share_RunStatue => "执行状态：";
         public string Share_Waiting => "等待中";

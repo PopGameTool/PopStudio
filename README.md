@@ -4,6 +4,7 @@ In English:
 A project to convert many kinds of files used in PopCap Games.  
 By using C# and .Net 6/.Net 7, this project can easily be used in Linux, MacOS, Windows and Android.  
 Both English and Chinese are supported.  
+In the Avalonia desktop app, drop a file or folder onto any path field to fill in its local path. If multiple items are dropped, the first one is used. Typing paths and using the Select button are also supported.
 Compile PopStudio.ConsoleProject to use PopStudio in Windows, Linux and MacOS with console.  
 Compile PopStudio.MAUI to use PopStudio in Android with GUI.  
 Compile PopStudio.WPF to use PopStudio in Windows with GUI.  
@@ -54,6 +55,7 @@ In Chinese:
 一个用于转换很多宝开游戏使用的文件的项目。  
 通过使用C#和.Net 6/.Net 7，这个项目可以很轻松地在Linux，MacOS，Windows和Android系统上使用。  
 英文和中文都支持。  
+Avalonia 桌面版支持将文件或文件夹直接拖入路径输入框，自动填入本地路径；同时拖入多个项目时使用第一个。也可以继续手动输入路径或点击“选择”按钮。
 编译PopStudio.ConsoleProject以在Windows，Linux和MacOS使用控制台版本。  
 编译PopStudio.MAUI以在Android使用GUI版本。  
 编译PopStudio.WPF以在Windows使用GUI版本。  

@@ -382,6 +382,7 @@
         public string Share_Wrong => "Executing error: {0}";
         public string Share_ChooseMode => "Select Operation Mode";
         public string Share_Choose => "Select";
+        public string Share_DropPathHint => "Enter a path or drop a file/folder here";
         public string Share_Run => "Execution";
         public string Share_RunStatue => "Execution status:";
         public string Share_Waiting => "Waiting";

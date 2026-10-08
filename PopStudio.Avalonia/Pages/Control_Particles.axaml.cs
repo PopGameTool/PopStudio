@@ -15,6 +15,7 @@ namespace PopStudio.Avalonia.Pages
         {
             InitializeComponent();
             LoadControl();
+            FilePathDrop.Enable(textbox1, textbox2);
             LoadFont();
             CB_InMode.Items.Add("PC_Compiled");
             CB_InMode.Items.Add("Phone32_Compiled");
@@ -69,6 +70,7 @@ namespace PopStudio.Avalonia.Pages
 
         void LoadFont()
         {
+            textbox1.Watermark = textbox2.Watermark = MAUIStr.Obj.Share_DropPathHint;
             label_batch1.Text = MAUIStr.Obj.Share_SingleMode;
             label_batch2.Text = MAUIStr.Obj.Share_BatchMode;
             label_introduction.Text = MAUIStr.Obj.Particles_Introduction;
