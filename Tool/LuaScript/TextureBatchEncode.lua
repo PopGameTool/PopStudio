@@ -29,13 +29,11 @@ print(loc.Description);
 local filepath = args[1] or rainy.choosefolder() or error(loc.Error);
 local mode = args[2];
 local ex;
-local format = 0;
+local format = args[4] or 0;
 if mode == nil then
-    local m = rainy.sheet(loc.OutFormat,"PTX(rsb)","cdat(Android,iOS)","tex(iOS)","txz(Android,iOS)","tex(TV)","ptx(xbox360)","ptx(ps3)","ptx(psv)","xnb(WindowsPhone)");
-    local tab = {["PTX(rsb)"] = 0, ["cdat(Android,iOS)"] = 1,["tex(iOS)"] = 2,["txz(Android,iOS)"] = 3,["tex(TV)"] = 4,["ptx(xbox360)"] = 5,["ptx(ps3)"] = 6,["ptx(psv)"] = 7,["xnb(WindowsPhone)"] = 8};
+    local m = rainy.sheet(loc.OutFormat,"PTX(rsb)","cdat(Android,iOS)","tex(iOS)","txz(Android,iOS)","tex(TV)","ptx(xbox360)","dds / ptx(ps3)","ptx(psv)","xnb(WindowsPhone)");
+    local tab = {["PTX(rsb)"] = 0, ["cdat(Android,iOS)"] = 1,["tex(iOS)"] = 2,["txz(Android,iOS)"] = 3,["tex(TV)"] = 4,["ptx(xbox360)"] = 5,["dds / ptx(ps3)"] = 6,["ptx(psv)"] = 7,["xnb(WindowsPhone)"] = 8};
     mode = tab[m];
-    local tab2 = {[0] = ".PTX",[1] = ".cdat",[2] = ".tex",[3] = ".txz",[4] = ".tex",[5] = ".ptx",[6] = ".ptx",[7] = ".ptx",[8] = ".xnb"};
-    ex = tab2[mode];
     if (mode == 0) then
         local cho = rainy.sheet(loc.OutFormat,"ARGB8888(0)", "ABGR8888(0)", "RGBA4444(1)", "RGB565(2)", "RGBA5551(3)", "RGBA4444_Block(21)", "RGB565_Block(22)", "RGBA5551_Block(23)", "XRGB8888_A8(149)", "ARGB8888(BE)(0)", "ARGB8888_Padding(BE)(0)", "DXT1_RGB(35)", "DXT3_RGBA(36)", "DXT5_RGBA(37)", "DXT5(5)", "DXT5(BE)(5)", "ETC1_RGB(32)", "ETC1_RGB_A8(147)", "ETC1_RGB_A_Palette(147)", "ETC1_RGB_A_Palette(150)", "PVRTC_4BPP_RGBA(30)", "PVRTC_4BPP_RGB_A8(148)");
         local tab3 = {["ARGB8888(0)"] = 0,["ABGR8888(0)"] = 1,["RGBA4444(1)"] = 2,["RGB565(2)"] = 3,["RGBA5551(3)"] = 4,["RGBA4444_Block(21)"] = 5,["RGB565_Block(22)"] = 6,["RGBA5551_Block(23)"] = 7,["XRGB8888_A8(149)"] = 8,["ARGB8888(BE)(0)"] = 9,["ARGB8888_Padding(BE)(0)"] = 10,["DXT1_RGB(35)"] = 11,["DXT3_RGBA(36)"] = 12,["DXT5_RGBA(37)"] = 13,["DXT5(5)"] = 14,["DXT5(BE)(5)"] = 15,["ETC1_RGB(32)"] = 16,["ETC1_RGB_A8(147)"] = 17,["ETC1_RGB_A_Palette(147)"] = 18,["ETC1_RGB_A_Palette(150)"] = 19,["PVRTC_4BPP_RGBA(30)"] = 20,["PVRTC_4BPP_RGB_A8(148)"] = 21};
@@ -51,7 +49,14 @@ if mode == nil then
         local tab3 = {["LUT8(1)(Invalid)"] = 0,["ARGB8888(2)"] = 1,["ARGB4444(3)"] = 2,["ARGB1555(4)"] = 3,["RGB565(5)"] = 4,["ABGR8888(6)"] = 5,["RGBA4444(7)"] = 6,["RGBA5551(8)"] = 7,["XRGB8888(9)"] = 8,["LA88(10)"] = 9};
         format = tab3[cho];
     end
+    if (mode == 6) then
+        local cho = rainy.sheet(loc.OutFormat,"DXT5_RGBA", "ATC_RGB (ATC)", "ATC_RGBA4 (ATCA)", "ATC_RGBA_Interpolated (ATCI)");
+        local formats = {["DXT5_RGBA"] = 0,["ATC_RGB (ATC)"] = 1,["ATC_RGBA4 (ATCA)"] = 2,["ATC_RGBA_Interpolated (ATCI)"] = 3};
+        format = formats[cho];
+    end
 end
+local extensions = {[0] = ".PTX",[1] = ".cdat",[2] = ".tex",[3] = ".txz",[4] = ".tex",[5] = ".ptx",[6] = ".ptx",[7] = ".ptx",[8] = ".xnb"};
+ex = (mode == 6 and format ~= 0) and ".dds" or extensions[mode];
 --Ask if you want to delete the old file
 local delete = args[3];
 if delete == nil then

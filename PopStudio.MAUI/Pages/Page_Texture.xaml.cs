@@ -33,7 +33,7 @@ namespace PopStudio.MAUI
             CB_CMode.Items.Add("txz(Android,iOS)");
             CB_CMode.Items.Add("tex(TV)");
             CB_CMode.Items.Add("ptx(Xbox360)");
-            CB_CMode.Items.Add("ptx(PS3)");
+            CB_CMode.Items.Add("dds / ptx(PS3)");
             CB_CMode.Items.Add("ptx(PSV)");
             CB_CMode.Items.Add("xnb(Windows Phone)");
             CB_CMode.SelectedIndex = 0;
@@ -214,6 +214,9 @@ namespace PopStudio.MAUI
             else if (index == 6)
             {
                 CB_FMode.Items.Add("DXT5_RGBA");
+                CB_FMode.Items.Add("ATC_RGB (ATC)");
+                CB_FMode.Items.Add("ATC_RGBA4 (ATCA)");
+                CB_FMode.Items.Add("ATC_RGBA_Interpolated (ATCI)");
             }
             else if (index == 7)
             {

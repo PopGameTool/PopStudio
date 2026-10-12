@@ -24,7 +24,7 @@ namespace PopStudio.Avalonia.Pages
                          "txz(Android,iOS)",
                          "tex(TV)",
                          "ptx(Xbox360)",
-                         "ptx(PS3)",
+                         "dds / ptx(PS3)",
                          "ptx(PSV)",
                          "xnb(Windows Phone)"
                      })
@@ -237,7 +237,7 @@ namespace PopStudio.Avalonia.Pages
                         3 => ".txz",
                         4 => ".tex",
                         5 => ".ptx",
-                        6 => ".ptx",
+                        6 => fmode == 0 ? ".ptx" : ".dds",
                         7 => ".ptx",
                         8 => ".xnb",
                         _ => null
@@ -268,7 +268,8 @@ namespace PopStudio.Avalonia.Pages
                         int rightFormatLength = rightFormat.Length;
                         foreach (string mfile in files)
                         {
-                            if (mfile.Length < rightFormatLength || mfile[^rightFormatLength..].ToLower() != rightFormat)
+                            bool isDds = !mode && cmode == 6 && Path.GetExtension(mfile).Equals(".dds", StringComparison.OrdinalIgnoreCase);
+                            if (!isDds && (mfile.Length < rightFormatLength || mfile[^rightFormatLength..].ToLower() != rightFormat))
                             {
                                 continue;
                             }
@@ -400,6 +401,9 @@ namespace PopStudio.Avalonia.Pages
                     break;
                 case 6:
                     FMode_Items.Add("DXT5_RGBA");
+                    FMode_Items.Add("ATC_RGB (ATC)");
+                    FMode_Items.Add("ATC_RGBA4 (ATCA)");
+                    FMode_Items.Add("ATC_RGBA_Interpolated (ATCI)");
                     break;
                 case 7:
                     FMode_Items.Add("DXT5_RGBA_Morton");

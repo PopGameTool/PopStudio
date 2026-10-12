@@ -143,6 +143,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Texture\ARGB8888.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Texture\ARGB8888_Padding.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Texture\ATC_RGB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Texture\ATC.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Texture\DXT1_RGB.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Texture\ATC_RGBA4.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Texture\DXT3_RGBA.cs" />

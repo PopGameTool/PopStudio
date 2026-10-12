@@ -130,7 +130,8 @@ namespace PopStudio.ConsoleProject
                     YFAPI.EncodeImage(filePath, Path.ChangeExtension(filePath, ".ptx"), 5, ConsoleReader.ReadInt32(GenEncodeImageHelp(MAUIStr.Obj.Console_App_Texture_Format_Ask, 5)));
                     break;
                 case CommandCode.EncodeImage_PtxPS3:
-                    YFAPI.EncodeImage(filePath, Path.ChangeExtension(filePath, ".ptx"), 6, ConsoleReader.ReadInt32(GenEncodeImageHelp(MAUIStr.Obj.Console_App_Texture_Format_Ask, 6)));
+                    int ddsFormat = ConsoleReader.ReadInt32(GenEncodeImageHelp(MAUIStr.Obj.Console_App_Texture_Format_Ask, 6));
+                    YFAPI.EncodeImage(filePath, Path.ChangeExtension(filePath, ddsFormat == 0 ? ".ptx" : ".dds"), 6, ddsFormat);
                     break;
                 case CommandCode.EncodeImage_PtxPSV:
                     YFAPI.EncodeImage(filePath, Path.ChangeExtension(filePath, ".ptx"), 7, ConsoleReader.ReadInt32(GenEncodeImageHelp(MAUIStr.Obj.Console_App_Texture_Format_Ask, 7)));
@@ -379,6 +380,9 @@ namespace PopStudio.ConsoleProject
                     break;
                 case 6:
                     Add(0, "DXT5_RGBA");
+                    Add(1, "ATC_RGB (ATC)");
+                    Add(2, "ATC_RGBA4 (ATCA)");
+                    Add(3, "ATC_RGBA_Interpolated (ATCI)");
                     break;
                 case 7:
                     Add(0, "DXT5_RGBA_Morton");
@@ -525,6 +529,9 @@ namespace PopStudio.ConsoleProject
                                 codeList.Add(CommandCode.EncodeImage_PtxPS3);
                                 codeList.Add(CommandCode.EncodeImage_PtxPSV);
                                 codeList.Add(CommandCode.EncodeImage_Xnb);
+                                break;
+                            case ".dds":
+                                codeList.Add(CommandCode.DecodeImage_PtxPS3);
                                 break;
                             case ".ptx":
                                 codeList.Add(CommandCode.DecodeImage_PtxRsb);

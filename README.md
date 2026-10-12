@@ -17,6 +17,10 @@ unpack and pack pak(including Windows, MacOS, PS3, PSV and Xbox360)
 unpack and pack arcv(including Nds)  
 cut and create atlas  
 decode and encode ptx(including Android, iOS, PS3, PS4, PSV and Xbox360)  
+decode and encode DDS with DXT5, ATC RGB (`ATC `), explicit alpha (`ATCA`) and interpolated alpha (`ATCI`). Select **dds / ptx(PS3)** in the texture converter; for ATCA encoding select **ATC_RGBA4 (ATCA)**. DDS decoding reads the largest mip level; encoding writes a single level. Cubemaps, volumes, DX10 headers and other DDS compression formats are not supported. ATC encoding is lossy.
+
+Lua/API texture format `6` accepts DDS and PS3 PTX. Encoding subformats are `0` = DXT5 (default), `1` = ATC RGB, `2` = ATCA, `3` = ATCI; e.g. `rainy.decodeimage("input.dds", "output.png", 6)` and `rainy.encodeimage("input.png", "output.dds", 6, 2)`. Run texture regression tests with `dotnet run --project Tests/PopStudio.Texture.Tests`; optional arguments are a sample DDS path and an output directory.
+
 decode and encode cdat(including Android and iOS)  
 decode and encode tex(including Android and iOS)  
 decode and encode txz(including Android and iOS)  
@@ -68,6 +72,10 @@ Avalonia 桌面版支持将文件或文件夹直接拖入路径输入框，自�
 解包打包arcv（包括Nds）  
 图集裁剪与拼接  
 解码编码ptx（包括Android，iOS，PS3，PS4，PSV和Xbox360）  
+解码编码 DDS：支持 DXT5、ATC RGB（`ATC `）、显式透明度（`ATCA`）和插值透明度（`ATCI`）。在纹理转换中选择 **dds / ptx(PS3)**，编码 ATCA 时选择 **ATC_RGBA4 (ATCA)**。解码只读取最大 mip 层，编码输出单层；不支持立方体、体积纹理、DX10 头及其他 DDS 压缩格式。ATC 编码是有损压缩。
+
+Lua/API 的图像格式编号 `6` 同时支持 DDS 和 PS3 PTX，编码子格式为 `0` = DXT5（默认）、`1` = ATC RGB、`2` = ATCA、`3` = ATCI。例如：`rainy.decodeimage("input.dds", "output.png", 6)`、`rainy.encodeimage("input.png", "output.dds", 6, 2)`。纹理回归测试：`dotnet run --project Tests/PopStudio.Texture.Tests`，可追加样例 DDS 路径和输出目录。
+
 解码编码cdat（包括Android，iOS）  
 解码编码tex（包括Android，iOS）  
 解码编码txz（包括Android，iOS）  

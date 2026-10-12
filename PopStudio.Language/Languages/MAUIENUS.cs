@@ -55,7 +55,7 @@
         public string Console_App_CommandIndex_DecodeImage_Txz => "Decode txz(Android,iOS) Image";
         public string Console_App_CommandIndex_DecodeImage_TexTV => "Decode tex(TV) Image";
         public string Console_App_CommandIndex_DecodeImage_PtxXbox360 => "Decode ptx(Xbox360) Image";
-        public string Console_App_CommandIndex_DecodeImage_PtxPS3 => "Decode ptx(PS3) Image";
+        public string Console_App_CommandIndex_DecodeImage_PtxPS3 => "Decode dds / ptx(PS3) Image";
         public string Console_App_CommandIndex_DecodeImage_PtxPSV => "Decode ptx(PSV) Image";
         public string Console_App_CommandIndex_DecodeImage_Xnb => "Decode xnb(Windows Phone) Image";
         public string Console_App_CommandIndex_EncodeImage_PtxRsb => "Encode PTX(rsb) Image";
@@ -64,7 +64,7 @@
         public string Console_App_CommandIndex_EncodeImage_Txz => "Encode txz(Android,iOS) Image";
         public string Console_App_CommandIndex_EncodeImage_TexTV => "Encode tex(TV) Image";
         public string Console_App_CommandIndex_EncodeImage_PtxXbox360 => "Encode ptx(Xbox360) Image";
-        public string Console_App_CommandIndex_EncodeImage_PtxPS3 => "Encode ptx(PS3) Image";
+        public string Console_App_CommandIndex_EncodeImage_PtxPS3 => "Encode dds / ptx(PS3) Image";
         public string Console_App_CommandIndex_EncodeImage_PtxPSV => "Encode ptx(PSV) Image";
         public string Console_App_CommandIndex_EncodeImage_Xnb => "Encode xnb(Windows Phone) Image";
         public string Console_App_CommandIndex_Reanim_ToPCCompiled => "Convert reanim to PC_Compiled format";

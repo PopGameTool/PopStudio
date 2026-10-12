@@ -55,7 +55,7 @@
         public string Console_App_CommandIndex_DecodeImage_Txz => "解码txz(Android,iOS)图像";
         public string Console_App_CommandIndex_DecodeImage_TexTV => "解码tex(TV)图像";
         public string Console_App_CommandIndex_DecodeImage_PtxXbox360 => "解码ptx(Xbox360)图像";
-        public string Console_App_CommandIndex_DecodeImage_PtxPS3 => "解码ptx(PS3)图像";
+        public string Console_App_CommandIndex_DecodeImage_PtxPS3 => "解码dds / ptx(PS3)图像";
         public string Console_App_CommandIndex_DecodeImage_PtxPSV => "解码ptx(PSV)图像";
         public string Console_App_CommandIndex_DecodeImage_Xnb => "解码xnb(Windows Phone)图像";
         public string Console_App_CommandIndex_EncodeImage_PtxRsb => "编码PTX(rsb)图像";
@@ -64,7 +64,7 @@
         public string Console_App_CommandIndex_EncodeImage_Txz => "编码txz(Android,iOS)图像";
         public string Console_App_CommandIndex_EncodeImage_TexTV => "编码tex(TV)图像";
         public string Console_App_CommandIndex_EncodeImage_PtxXbox360 => "编码ptx(Xbox360)图像";
-        public string Console_App_CommandIndex_EncodeImage_PtxPS3 => "编码ptx(PS3)图像";
+        public string Console_App_CommandIndex_EncodeImage_PtxPS3 => "编码dds / ptx(PS3)图像";
         public string Console_App_CommandIndex_EncodeImage_PtxPSV => "编码ptx(PSV)图像";
         public string Console_App_CommandIndex_EncodeImage_Xnb => "编码xnb(Windows Phone)图像";
         public string Console_App_CommandIndex_Reanim_ToPCCompiled => "将reanim动画转为PC_Compiled格式";
