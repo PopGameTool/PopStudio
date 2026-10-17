@@ -36,6 +36,8 @@ decode and encode pam(including version 1-6)
 decode and encode RTON(including simple RTON and encrypted RTON but need your key)  
 decompress and compress files  
 use lua to run program  
+Lua page includes a collapsible rainy API help panel (Avalonia + MAUI). Optional AvaloniaEdit highlighting/completion: build PopStudio.Avalonia with `-p:EnableLuaEditor=true` (default off for AOT/size; no TextMate grammars).  
+
 
 Xbox360 PAK supports XMem LZX TD compression and decompression. Unpacking records `XmemCompress` in `popstudioinfo/packinfo.xml`; packing uses that setting automatically. For new Xbox360 archives, set `PCVersion=False`, `ZlibCompress=False`, `XmemCompress=True` and `Xbox360PtxAlign=True`.
 
@@ -91,6 +93,8 @@ Lua/API 的图像格式编号 `6` 同时支持 DDS 和 PS3 PTX，编码子格式
 解码编码RTON（包括普通RTON和加密RTON，需自行提供密钥）  
 压缩解压文件  
 使用lua脚本调用程序  
+Lua页内置可折叠的 rainy API 帮助面板（Avalonia + MAUI）。可选 AvaloniaEdit 高亮/补全：编译 PopStudio.Avalonia 时加 `-p:EnableLuaEditor=true`（默认关闭，利于 AOT/体积；不引用 TextMate Grammars）。  
+
 
 支持 Xbox360 PAK 的 XMem LZX TD 压缩与解压。解包会在 `popstudioinfo/packinfo.xml` 中保存 `XmemCompress`，重打包时自动沿用。新建 Xbox360 包时设置 `PCVersion=False`、`ZlibCompress=False`、`XmemCompress=True` 和 `Xbox360PtxAlign=True`。
 

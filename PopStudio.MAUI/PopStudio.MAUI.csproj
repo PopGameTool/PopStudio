@@ -80,6 +80,9 @@
 	  <MauiXaml Update="Pages\Page_LuaScript.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Page_LuaApiHelp.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Page_Package.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -155,6 +155,35 @@
         public string LuaScript_Title => "Lua Script";
         public string LuaScript_Introduction => "Through lua script, call the built-in function of the program to realize batch processing and other functions! ";
         public string LuaScript_TracePrint => "Print";
+        public string LuaScript_ApiHelp => "API Help";
+        public string LuaScript_ApiJump => "Jump to";
+        public string LuaScript_ApiSearch => "Search API";
+        public string LuaScript_ApiCopyAll => "Copy All";
+        public string LuaScript_ApiCopied => "Copied to clipboard";
+        public string LuaScript_Insert => "Insert";
+        public string LuaScript_CtxUndo => "Undo";
+        public string LuaScript_CtxRedo => "Redo";
+        public string LuaScript_CtxCut => "Cut";
+        public string LuaScript_CtxCopy => "Copy";
+        public string LuaScript_CtxPaste => "Paste";
+        public string LuaScript_CtxDelete => "Delete";
+        public string LuaScript_CtxSelectAll => "Select All";
+        public string LuaScript_CtxOpen => "Open Script...";
+        public string LuaScript_CtxSave => "Save Script";
+        public string LuaScript_CtxSaveAs => "Save As...";
+        public string LuaScript_CtxClear => "Clear";
+        public string LuaScript_CtxInsertFilePath => "Insert File Path...";
+        public string LuaScript_CtxInsertFolderPath => "Insert Folder Path...";
+        public string LuaScript_CtxWordWrap => "Word Wrap";
+        public string LuaScript_ApiCategory_UI => "UI";
+        public string LuaScript_ApiCategory_File => "File";
+        public string LuaScript_ApiCategory_Image => "Image";
+        public string LuaScript_ApiCategory_RTON => "RTON";
+        public string LuaScript_ApiCategory_Animation => "Animation";
+        public string LuaScript_ApiCategory_Compress => "Compress";
+        public string LuaScript_ApiCategory_System => "System";
+        public string LuaScript_ApiCategory_Global => "Global";
+        public string LuaScript_ApiCategory_Stream => "Stream";
 
         //Shell
         public string Shell_OK => "Yes\0";

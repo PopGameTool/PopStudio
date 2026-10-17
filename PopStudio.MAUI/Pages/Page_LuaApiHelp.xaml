@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PopStudio.MAUI.Page_LuaApiHelp">
+    <Grid RowDefinitions="Auto,*" Padding="0">
+        <VerticalStackLayout Spacing="8" Padding="16,12,16,8">
+            <Grid ColumnDefinitions="*,Auto">
+                <Entry x:Name="entry_search" Placeholder="Search" TextChanged="entry_search_TextChanged" />
+                <Button Grid.Column="1" x:Name="button_copy_all" Margin="8,0,0,0" Clicked="button_copy_all_Clicked" />
+            </Grid>
+            <Label x:Name="label_copied" FontSize="13" Opacity="0.8" IsVisible="False" />
+            <Label x:Name="label_jump" FontSize="14" Opacity="0.8" />
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Default" VerticalScrollBarVisibility="Never">
+                <HorizontalStackLayout x:Name="jump_bar" Spacing="6" />
+            </ScrollView>
+        </VerticalStackLayout>
+        <ScrollView x:Name="doc_scroll" Grid.Row="1">
+            <VerticalStackLayout x:Name="doc_panel" Padding="16,4,16,20" Spacing="18" />
+        </ScrollView>
+    </Grid>
+</ContentPage>
