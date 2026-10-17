@@ -7,14 +7,22 @@
 	<ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto">
 		<StackPanel Orientation="Vertical" Margin="30,24,30,24">
 			<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" x:Name="label_introduction" FontSize="16"/>
-			<TextBox VerticalContentAlignment="Top" x:Name="richtextbox1" AcceptsReturn="True" TextWrapping="Wrap" Margin="0 5 0 5" FontSize="18" Height="200" />
+			<Panel x:Name="editor_host" Margin="0 5 0 5">
+				<TextBox VerticalContentAlignment="Top" x:Name="richtextbox1" AcceptsReturn="True" TextWrapping="Wrap" FontSize="18" Height="200" />
+			</Panel>
 			<Grid Margin="0 5 0 5">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="3*" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="8" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
 				<Button Grid.Column="1" x:Name="button_run" Click="ButtonRun_Click" />
+				<Button Grid.Row="2" Grid.Column="1" x:Name="button_api_help" Click="ButtonApiHelp_Click" />
 			</Grid>
 			<TextBlock x:Name="label_print" Margin="0 5 0 5" FontSize="16" />
 			<TextBox VerticalContentAlignment="Top" IsReadOnly="True" x:Name="richtextbox2" AcceptsReturn="True" TextWrapping="Wrap" Margin="0 5 0 5" Height="85" FontSize="16" />

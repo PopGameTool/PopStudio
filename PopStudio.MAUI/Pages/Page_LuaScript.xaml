@@ -12,7 +12,13 @@
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Button Grid.Column="1" x:Name="button_run" Clicked="button_run_Click" />
+                <Button Grid.Row="2" Grid.Column="1" x:Name="button_api_help" Clicked="button_api_help_Clicked" />
             </Grid>
             <Label x:Name="label_print" FontSize="16" />
             <Editor x:Name="richtextbox2" MinimumHeightRequest="170" VerticalTextAlignment="Start" AutoSize="TextChanges" />

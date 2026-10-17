@@ -158,6 +158,35 @@
         public string LuaScript_Title { get; }
         public string LuaScript_Introduction { get; }
         public string LuaScript_TracePrint { get; }
+        public string LuaScript_ApiHelp { get; }
+        public string LuaScript_ApiJump { get; }
+        public string LuaScript_ApiSearch { get; }
+        public string LuaScript_ApiCopyAll { get; }
+        public string LuaScript_ApiCopied { get; }
+        public string LuaScript_Insert { get; }
+        public string LuaScript_CtxUndo { get; }
+        public string LuaScript_CtxRedo { get; }
+        public string LuaScript_CtxCut { get; }
+        public string LuaScript_CtxCopy { get; }
+        public string LuaScript_CtxPaste { get; }
+        public string LuaScript_CtxDelete { get; }
+        public string LuaScript_CtxSelectAll { get; }
+        public string LuaScript_CtxOpen { get; }
+        public string LuaScript_CtxSave { get; }
+        public string LuaScript_CtxSaveAs { get; }
+        public string LuaScript_CtxClear { get; }
+        public string LuaScript_CtxInsertFilePath { get; }
+        public string LuaScript_CtxInsertFolderPath { get; }
+        public string LuaScript_CtxWordWrap { get; }
+        public string LuaScript_ApiCategory_UI { get; }
+        public string LuaScript_ApiCategory_File { get; }
+        public string LuaScript_ApiCategory_Image { get; }
+        public string LuaScript_ApiCategory_RTON { get; }
+        public string LuaScript_ApiCategory_Animation { get; }
+        public string LuaScript_ApiCategory_Compress { get; }
+        public string LuaScript_ApiCategory_System { get; }
+        public string LuaScript_ApiCategory_Global { get; }
+        public string LuaScript_ApiCategory_Stream { get; }
 
 
         //Shell

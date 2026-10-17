@@ -22,6 +22,14 @@
 	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
   </PropertyGroup>
 
+  <!-- EnableLuaEditor: opt-in AvaloniaEdit-based live editor. Off by default to keep the
+       AOT publish small; enable locally with -p:EnableLuaEditor=true. The API help panel
+       and the script runner work either way. -->
+  <PropertyGroup>
+    <EnableLuaEditor Condition="'$(EnableLuaEditor)' == ''">false</EnableLuaEditor>
+    <DefineConstants Condition="'$(EnableLuaEditor)' == 'true'">$(DefineConstants);ENABLE_LUA_EDITOR</DefineConstants>
+  </PropertyGroup>
+
   <PropertyGroup>
     <DefineConstants Condition="$(RuntimeIdentifier.Contains('win'))">$(DefineConstants);WINDOWS</DefineConstants>
     <DefineConstants Condition="$(RuntimeIdentifier.Contains('osx'))">$(DefineConstants);MACOS</DefineConstants>
@@ -44,6 +52,7 @@
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.6" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.6" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.3.0" Condition="'$(EnableLuaEditor)' == 'true'" />
     <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.3.8" />
     <PackageReference Include="LZMA-SDK" Version="22.1.1" />
     <PackageReference Include="MoonSharp" Version="2.0.0" />
@@ -55,6 +64,12 @@
 		<AvaloniaResource Include="Assets\*" />
 		<AvaloniaResource Include="Assets\Fonts\*" />
 		<AvaloniaResource Include="Assets\Images\*" />
+	</ItemGroup>
+	<!-- Kept after the Assets include above: MSBuild evaluates item operations in order. -->
+	<ItemGroup Condition="'$(EnableLuaEditor)' != 'true'">
+		<AvaloniaXaml Remove="Themes\AvaloniaEditTheme.axaml" />
+		<Compile Remove="Themes\AvaloniaEditTheme.axaml.cs" />
+		<AvaloniaResource Remove="Assets\Lua.xshd" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Remove="Assets\Images\shell.png" />

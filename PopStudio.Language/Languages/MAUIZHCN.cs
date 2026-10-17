@@ -155,6 +155,35 @@
         public string LuaScript_Title => "Lua脚本";
         public string LuaScript_Introduction => "通过Lua脚本功能，调用程序内置函数，实现批处理等功能！";
         public string LuaScript_TracePrint => "输出";
+        public string LuaScript_ApiHelp => "API 帮助";
+        public string LuaScript_ApiJump => "快速跳转";
+        public string LuaScript_ApiSearch => "搜索 API";
+        public string LuaScript_ApiCopyAll => "复制全部";
+        public string LuaScript_ApiCopied => "已复制到剪贴板";
+        public string LuaScript_Insert => "插入";
+        public string LuaScript_CtxUndo => "撤销";
+        public string LuaScript_CtxRedo => "重做";
+        public string LuaScript_CtxCut => "剪切";
+        public string LuaScript_CtxCopy => "复制";
+        public string LuaScript_CtxPaste => "粘贴";
+        public string LuaScript_CtxDelete => "删除";
+        public string LuaScript_CtxSelectAll => "全选";
+        public string LuaScript_CtxOpen => "打开脚本...";
+        public string LuaScript_CtxSave => "保存脚本";
+        public string LuaScript_CtxSaveAs => "另存为...";
+        public string LuaScript_CtxClear => "清空";
+        public string LuaScript_CtxInsertFilePath => "插入文件路径...";
+        public string LuaScript_CtxInsertFolderPath => "插入文件夹路径...";
+        public string LuaScript_CtxWordWrap => "自动换行";
+        public string LuaScript_ApiCategory_UI => "界面";
+        public string LuaScript_ApiCategory_File => "文件";
+        public string LuaScript_ApiCategory_Image => "图像";
+        public string LuaScript_ApiCategory_RTON => "RTON";
+        public string LuaScript_ApiCategory_Animation => "动画";
+        public string LuaScript_ApiCategory_Compress => "压缩";
+        public string LuaScript_ApiCategory_System => "系统";
+        public string LuaScript_ApiCategory_Global => "全局";
+        public string LuaScript_ApiCategory_Stream => "流";
 
         //Shell
         public string Shell_OK => "确定\0";

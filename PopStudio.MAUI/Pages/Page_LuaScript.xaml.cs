@@ -11,8 +11,8 @@ namespace PopStudio.MAUI
             label_introduction.Text = MAUIStr.Obj.LuaScript_Introduction;
             label_print.Text = MAUIStr.Obj.LuaScript_TracePrint;
             button_run.Text = MAUIStr.Obj.Share_Run;
+            button_api_help.Text = MAUIStr.Obj.LuaScript_ApiHelp;
         }
-
 
         public Page_LuaScript()
 		{
@@ -25,6 +25,34 @@ namespace PopStudio.MAUI
         ~Page_LuaScript()
         {
             MAUIStr.OnLanguageChanged -= LoadFont;
+        }
+
+        async void button_api_help_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                await Shell.Current.Navigation.PushAsync(new Page_LuaApiHelp(InsertIntoEditor));
+            }
+            catch (Exception ex)
+            {
+                Print(string.Format(MAUIStr.Obj.Share_Wrong, ex.Message));
+            }
+        }
+
+        void InsertIntoEditor(string snippet)
+        {
+            if (string.IsNullOrEmpty(snippet)) return;
+            string text = richtextbox1.Text ?? string.Empty;
+            int pos = richtextbox1.CursorPosition;
+            if (pos < 0 || pos > text.Length) pos = text.Length;
+            string toInsert = snippet;
+            if (pos > 0 && text[pos - 1] != '\n' && text[pos - 1] != '\r')
+            {
+                toInsert = "\n" + toInsert;
+            }
+            richtextbox1.Text = text.Insert(pos, toInsert);
+            richtextbox1.CursorPosition = pos + toInsert.Length;
+            richtextbox1.Focus();
         }
 
         private void button_run_Click(object sender, EventArgs e)

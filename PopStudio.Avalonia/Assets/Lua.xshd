@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="Lua" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="#6A9955" />
+  <Color name="String" foreground="#CE9178" />
+  <Color name="Number" foreground="#B5CEA8" />
+  <Color name="Keyword" foreground="#569CD6" fontWeight="bold" />
+  <Color name="MethodName" foreground="#DCDCAA" />
+  <Color name="Builtin" foreground="#4EC9B0" />
+
+  <RuleSet ignoreCase="false">
+    <Span color="Comment" begin="--\[\[" end="\]\]" multiline="true" />
+    <Span color="Comment" begin="--" />
+
+    <Span color="String" multiline="true">
+      <Begin>\[\[=*\[</Begin>
+      <End>\]=*\]</End>
+    </Span>
+    <Span color="String">
+      <Begin>"</Begin>
+      <End>"</End>
+      <RuleSet>
+        <Span begin="\\" end="." />
+      </RuleSet>
+    </Span>
+    <Span color="String">
+      <Begin>'</Begin>
+      <End>'</End>
+      <RuleSet>
+        <Span begin="\\" end="." />
+      </RuleSet>
+    </Span>
+
+    <Keywords color="Keyword">
+      <Word>and</Word>
+      <Word>break</Word>
+      <Word>do</Word>
+      <Word>else</Word>
+      <Word>elseif</Word>
+      <Word>end</Word>
+      <Word>false</Word>
+      <Word>for</Word>
+      <Word>function</Word>
+      <Word>goto</Word>
+      <Word>if</Word>
+      <Word>in</Word>
+      <Word>local</Word>
+      <Word>nil</Word>
+      <Word>not</Word>
+      <Word>or</Word>
+      <Word>repeat</Word>
+      <Word>return</Word>
+      <Word>then</Word>
+      <Word>true</Word>
+      <Word>until</Word>
+      <Word>while</Word>
+    </Keywords>
+
+    <!-- PopStudio rainy table + common Lua builtins -->
+    <Keywords color="Builtin">
+      <Word>rainy</Word>
+      <Word>print</Word>
+      <Word>pairs</Word>
+      <Word>ipairs</Word>
+      <Word>next</Word>
+      <Word>type</Word>
+      <Word>tostring</Word>
+      <Word>tonumber</Word>
+      <Word>select</Word>
+      <Word>assert</Word>
+      <Word>error</Word>
+      <Word>pcall</Word>
+      <Word>xpcall</Word>
+      <Word>require</Word>
+      <Word>rawget</Word>
+      <Word>rawset</Word>
+      <Word>rawequal</Word>
+      <Word>setmetatable</Word>
+      <Word>getmetatable</Word>
+    </Keywords>
+
+    <!-- function name / M.name / M:name after the function keyword -->
+    <Rule color="MethodName">(?&lt;=\bfunction\s+)[A-Za-z_][\w\.:]*</Rule>
+    <!-- calls: name(  and  :method( -->
+    <Rule color="MethodName">\b[A-Za-z_]\w*(?=\s*\()</Rule>
+
+    <Rule color="Number">\b0[xX][0-9a-fA-F]+\b</Rule>
+    <Rule color="Number">\b\d+(\.\d+)?([eE][+-]?\d+)?\b</Rule>
+  </RuleSet>
+</SyntaxDefinition>

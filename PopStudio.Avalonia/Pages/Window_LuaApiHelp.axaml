@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="760" d:DesignHeight="560"
+        x:Class="PopStudio.Avalonia.Pages.Window_LuaApiHelp"
+        Width="760" Height="560"
+        MinWidth="480" MinHeight="360"
+        WindowStartupLocation="CenterOwner">
+	<Grid RowDefinitions="Auto,Auto,Auto,*" Margin="0">
+		<Grid Margin="16 14 16 8" ColumnDefinitions="*,Auto,Auto">
+			<TextBlock x:Name="label_title" FontSize="22" VerticalAlignment="Center" />
+			<Button Grid.Column="1" x:Name="button_copy_all" MinWidth="96" Margin="0 0 8 0" Click="ButtonCopyAll_Click" />
+			<Button Grid.Column="2" x:Name="button_close" MinWidth="88" Click="ButtonClose_Click" />
+		</Grid>
+		<Grid Grid.Row="1" Margin="16 0 16 8" ColumnDefinitions="*,Auto">
+			<TextBox x:Name="textbox_search" Watermark="" FontSize="15" TextChanged="TextBoxSearch_TextChanged" />
+			<TextBlock Grid.Column="1" x:Name="label_copied" Margin="10 0 0 0" VerticalAlignment="Center" Opacity="0.8" IsVisible="False" />
+		</Grid>
+		<Border Grid.Row="2" Margin="12 0 12 8" Padding="8" CornerRadius="4">
+			<StackPanel Spacing="6">
+				<TextBlock x:Name="label_jump" FontSize="14" Opacity="0.8" />
+				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+					<StackPanel x:Name="jump_bar" Orientation="Horizontal" Spacing="6" />
+				</ScrollViewer>
+			</StackPanel>
+		</Border>
+		<ScrollViewer x:Name="doc_scroll" Grid.Row="3" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+			<StackPanel x:Name="doc_panel" Margin="16 4 16 20" Spacing="18" />
+		</ScrollViewer>
+	</Grid>
+</Window>
