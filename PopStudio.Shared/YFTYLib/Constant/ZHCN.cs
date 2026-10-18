@@ -18,6 +18,9 @@
 
         public string UnknownFormat => "不支持的格式";
 
+        public string TextureSizeLimit => "图片尺寸{0}x{1}超出该纹理容器的取值范围";
+        public string ImageTooLarge => "图片过大，无法写成 BMP";
+
         public string TypeMisMatch => "类型不匹配";
 
         public string EncryptPSVPak => "数据不匹配，如果你解包加密的PSV版pak，请先使用其他工具进行解密";

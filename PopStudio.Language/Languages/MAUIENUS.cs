@@ -124,6 +124,19 @@
         public string Console_App_Atlas_Height_Ask => "Please enter Atlas image height";
         public string Console_App_Texture_Format_Ask => "Please enter image format";
         public string Console_App_Texture_Format_Ask_Formater => "Enter {0} to use {1} format to encode";
+        public string Console_App_CommandIndex_ImageConvert_TextureToBitmap => "Batch convert textures to bitmaps";
+        public string Console_App_CommandIndex_ImageConvert_BitmapToTexture => "Batch convert bitmaps to textures";
+        public string Console_App_CommandIndex_ImageConvert_BitmapToBitmap => "Batch convert bitmaps to bitmaps";
+        public string Console_App_ImageConvert_Container_Ask => "Please enter the index of the texture container";
+        public string Console_App_ImageConvert_BitmapFormat_Ask => "Please enter the index of the bitmap format";
+        public string Console_App_ImageConvert_Quality_Ask => "Please enter the JPEG quality(1-100)";
+        public string Console_App_ImageConvert_MaxEdge_Ask => "Please enter the maximum edge length(Leave empty to keep the original size)";
+        public string Console_App_ImageConvert_OutDir_Ask => "Please enter the output folder path(Leave empty to use the default)";
+        public string Console_App_ImageConvert_Recursive_Ask => "Whether to convert the files in subfolders";
+        public string Console_App_ImageConvert_Overwrite_Ask => "Whether to overwrite the existing files";
+        public string Console_App_ImageConvert_OutDir => "The output folder is {0}";
+        public string Console_App_ImageConvert_Result => "Convert complete with {0} seconds: {1} found, {2} succeeded, {3} skipped, {4} failed";
+        public string Console_App_ImageConvert_Failure => "Failed: {0} -> {1} : {2}";
         public string Console_NoCommand => "No command {0}!";
 
         //Article
@@ -247,6 +260,32 @@
         public string Texture_Choose5_Batch => "The path of generated special image folder";
         public string Texture_Choose6_Batch => "Encoding Mode";
         public string Texture_Choose7_Batch => "Encoding Format";
+
+        //Image
+        public string Image_Title => "PNG/JPG Converter";
+        public string Image_Introduction => "Batch convert between PNG / JPG / BMP, with JPEG quality and proportional resize. To convert between textures and bitmaps, use the texture page or Lua scripts.";
+        public string Image_DropConvert_Ask => "Convert {0} file(s) to {1} and save them next to the originals?";
+        public string Image_DropConvert_OK => "Convert";
+        public string Image_Input => "The path of the folder or files to convert";
+        public string Image_InputFile => "Choose file(s)";
+        public string Image_InputFolder => "Choose folder";
+        public string Image_InputCount => "{0} file(s) selected";
+        public string Image_BitmapFormat => "Output format";
+        public string Image_JpegQuality => "JPEG quality(1-100)";
+        public string Image_MaxEdge => "Max edge(0 to disable resize)";
+        public string Image_Recursive => "Include subfolders";
+        public string Image_OutputDir => "The path of the output folder";
+        public string Image_Layout => "Output layout";
+        public string Image_Layout0 => "Keep the folder structure";
+        public string Image_Layout1 => "Put all files in one folder";
+        public string Image_Overwrite => "Overwrite the existing files";
+        public string Image_Cancel => "Cancel";
+        public string Image_Cancelled => "Cancelled";
+        public string Image_Running => "Converting {0}/{1}...";
+        public string Image_Result => "Convert complete with {0} seconds: {1} succeeded, {2} skipped, {3} failed";
+        public string Image_Failures => "Failure list";
+        public string Image_NeedInput => "Please choose the file or folder to convert";
+        public string Image_InvalidParams => "The converting parameters are invalid";
 
         //Pam
         public string Pam_Title => "Pam";

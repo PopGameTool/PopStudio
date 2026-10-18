@@ -125,6 +125,19 @@
         public string Console_App_Texture_Format_Ask { get; }
         public string Console_App_Texture_Format_Ask_Formater { get; }
         
+        public string Console_App_CommandIndex_ImageConvert_TextureToBitmap { get; }
+        public string Console_App_CommandIndex_ImageConvert_BitmapToTexture { get; }
+        public string Console_App_CommandIndex_ImageConvert_BitmapToBitmap { get; }
+        public string Console_App_ImageConvert_Container_Ask { get; }
+        public string Console_App_ImageConvert_BitmapFormat_Ask { get; }
+        public string Console_App_ImageConvert_Quality_Ask { get; }
+        public string Console_App_ImageConvert_MaxEdge_Ask { get; }
+        public string Console_App_ImageConvert_OutDir_Ask { get; }
+        public string Console_App_ImageConvert_Recursive_Ask { get; }
+        public string Console_App_ImageConvert_Overwrite_Ask { get; }
+        public string Console_App_ImageConvert_OutDir { get; }
+        public string Console_App_ImageConvert_Result { get; }
+        public string Console_App_ImageConvert_Failure { get; }
         public string Console_NoCommand { get; }
 
         //Article
@@ -251,6 +264,32 @@
         public string Texture_Choose5_Batch { get; }
         public string Texture_Choose6_Batch { get; }
         public string Texture_Choose7_Batch { get; }
+
+        //Image
+        public string Image_Title { get; }
+        public string Image_Introduction { get; }
+        public string Image_DropConvert_Ask { get; }
+        public string Image_DropConvert_OK { get; }
+        public string Image_Input { get; }
+        public string Image_InputFile { get; }
+        public string Image_InputFolder { get; }
+        public string Image_InputCount { get; }
+        public string Image_BitmapFormat { get; }
+        public string Image_JpegQuality { get; }
+        public string Image_MaxEdge { get; }
+        public string Image_Recursive { get; }
+        public string Image_OutputDir { get; }
+        public string Image_Layout { get; }
+        public string Image_Layout0 { get; }
+        public string Image_Layout1 { get; }
+        public string Image_Overwrite { get; }
+        public string Image_Cancel { get; }
+        public string Image_Cancelled { get; }
+        public string Image_Running { get; }
+        public string Image_Result { get; }
+        public string Image_Failures { get; }
+        public string Image_NeedInput { get; }
+        public string Image_InvalidParams { get; }
 
         //Pam
         public string Pam_Title { get; }

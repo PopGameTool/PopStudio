@@ -32,7 +32,10 @@ namespace PopStudio.Platform
 
         public GDIBitmap(Stream stream)
         {
-            m_bitmap = new System.Drawing.Bitmap(System.Drawing.Image.FromStream(stream));
+            using (System.Drawing.Image image = System.Drawing.Image.FromStream(stream))
+            {
+                m_bitmap = new System.Drawing.Bitmap(image);
+            }
             m_width = m_bitmap.Width;
             m_height = m_bitmap.Height;
             m_data = m_bitmap.LockBits(new Rectangle(0, 0, m_width, m_height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
@@ -40,7 +43,12 @@ namespace PopStudio.Platform
 
         public GDIBitmap(string filePath)
         {
-            m_bitmap = new System.Drawing.Bitmap(System.Drawing.Image.FromFile(filePath));
+            // Image.FromFile 得到的 Image 会一直占着文件句柄，必须用完就放掉，
+            // 否则这个文件在本进程里就再也改不了（批量转换的覆盖模式会因此失败）
+            using (System.Drawing.Image image = System.Drawing.Image.FromFile(filePath))
+            {
+                m_bitmap = new System.Drawing.Bitmap(image);
+            }
             m_width = m_bitmap.Width;
             m_height = m_bitmap.Height;
             m_data = m_bitmap.LockBits(new Rectangle(0, 0, m_width, m_height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
@@ -59,6 +67,41 @@ namespace PopStudio.Platform
         public override void Save(string filePath) => m_bitmap.Save(filePath, ImageFormat.Png);
 
         public override void Save(Stream stream) => m_bitmap.Save(stream, ImageFormat.Png);
+
+        /// <summary>
+        /// 每行字节数。GDI 自下而上时 Stride 为负
+        /// </summary>
+        public override int Stride => m_data != null ? m_data.Stride : m_width * 4;
+
+        public override bool IsBottomUp => m_data != null && m_data.Stride < 0;
+
+        public override void Save(Stream stream, YFBitmapSaveOptions options)
+        {
+            if (options.Format == YFBitmapFormat.Jpeg)
+            {
+                ImageCodecInfo codec = null;
+                foreach (ImageCodecInfo item in ImageCodecInfo.GetImageEncoders())
+                {
+                    if (item.MimeType == "image/jpeg")
+                    {
+                        codec = item;
+                        break;
+                    }
+                }
+                if (codec == null)
+                {
+                    m_bitmap.Save(stream, ImageFormat.Jpeg);
+                    return;
+                }
+                using (EncoderParameters param = new EncoderParameters(1))
+                {
+                    param.Param[0] = new EncoderParameter(Encoder.Quality, (long)options.Quality);
+                    m_bitmap.Save(stream, codec, param);
+                }
+                return;
+            }
+            base.Save(stream, options);
+        }
 
         public override void Dispose()
         {

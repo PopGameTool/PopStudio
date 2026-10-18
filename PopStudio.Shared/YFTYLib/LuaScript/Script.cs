@@ -212,6 +212,9 @@ namespace PopStudio.LuaScript
             rainy["spliceimage"] = (Action<object[]>)Function.SpliceImage;
             rainy["decodeimage"] = (Action<object[]>)Function.DecodeImage;
             rainy["encodeimage"] = (Action<object[]>)Function.EncodeImage;
+            rainy["decodeimages"] = (Func<object[], Table>)Function.DecodeImages;
+            rainy["encodeimages"] = (Func<object[], Table>)Function.EncodeImages;
+            rainy["convertbitmaps"] = (Func<object[], Table>)Function.ConvertBitmaps;
             rainy["pam"] = (Action<object[]>)Function.Pam;
             rainy["parsereanim"] = (Action<object[]>)Function.ParseReanim;
             rainy["parsetrail"] = (Action<object[]>)Function.ParseTrail;

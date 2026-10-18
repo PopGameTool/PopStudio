@@ -98,6 +98,20 @@ namespace PopStudio.Platform
             }
         }
 
+        public override void Save(Stream stream, YFBitmapSaveOptions options)
+        {
+            if (options.Format == YFBitmapFormat.Jpeg)
+            {
+                using (SKPixmap sKPixmap = m_bitmap.PeekPixels())
+                {
+                    if (sKPixmap == null) throw new Exception(Str.Obj.UnknownFormat);
+                    sKPixmap.Encode(stream, SKEncodedImageFormat.Jpeg, options.Quality);
+                }
+                return;
+            }
+            base.Save(stream, options);
+        }
+
         public override void Dispose() => m_bitmap?.Dispose();
     }
 }

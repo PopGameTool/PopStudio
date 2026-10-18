@@ -1,5 +1,6 @@
 ﻿#if !WINDOWSCONSOLE
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Buffers;
@@ -97,6 +98,16 @@ namespace PopStudio.Platform
                 FilterMethod = PngFilterMethod.None,
                 CompressionLevel = PngCompressionLevel.Level1
             });
+        }
+
+        public override void Save(Stream stream, YFBitmapSaveOptions options)
+        {
+            if (options.Format == YFBitmapFormat.Jpeg)
+            {
+                m_image.SaveAsJpeg(stream, new JpegEncoder { Quality = options.Quality });
+                return;
+            }
+            base.Save(stream, options);
         }
 
         public override void Dispose()

@@ -18,6 +18,9 @@
 
         public string UnknownFormat => "Unknown format";
 
+        public string TextureSizeLimit => "The image size {0}x{1} is out of range for this texture container";
+        public string ImageTooLarge => "The image is too large to be saved as BMP";
+
         public string TypeMisMatch => "The type is mismatched";
 
         public string EncryptPSVPak => "The data is mismatched. If you unpack encrypt pak in PSV, you should use other tools to decrypt it.";

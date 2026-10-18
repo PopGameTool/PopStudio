@@ -110,6 +110,10 @@
     <FlyoutItem x:Name="fitem_setting" FlyoutItemIsVisible="False">
         <ShellContent ContentTemplate="{DataTemplate local:Page_Setting}" />
     </FlyoutItem>
+
+    <FlyoutItem x:Name="fitem_image" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate local:Page_Image}" />
+    </FlyoutItem>
     
 
 </Shell>

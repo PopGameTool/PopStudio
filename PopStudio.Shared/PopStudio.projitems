@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Package\Dz\Dz.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Platform\YFAPI.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Platform\YFBitmap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Platform\YFBitmapWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Plugin\BitStream.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Plugin\IDisposablePool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Plugin\PVRTCDecode.cs" />
@@ -76,6 +77,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Image\Tex\TexHead.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Image\Txz\Txz.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Image\Txz\TxzHead.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Image\Convert\ImageConvertCatalog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\Image\Convert\ImageBatchConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\OtherProject\DotNetZip\BZip2\BitWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\OtherProject\DotNetZip\BZip2\BZip2Compressor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)YFTYLib\OtherProject\DotNetZip\BZip2\BZip2InputStream.cs" />

@@ -188,6 +188,7 @@ namespace PopStudio.Avalonia
             button10.Content = MAUIStr.Obj.Compress_Title;
             button11.Content = MAUIStr.Obj.LuaScript_Title;
             button12.Content = MAUIStr.Obj.Setting_Title;
+            button13.Content = MAUIStr.Obj.Image_Title;
             button1_Small.Content = MAUIStr.Obj.HomePage_Title;
             button2_Small.Content = MAUIStr.Obj.Package_Title;
             button3_Small.Content = MAUIStr.Obj.Atlas_Title;
@@ -200,6 +201,7 @@ namespace PopStudio.Avalonia
             button10_Small.Content = MAUIStr.Obj.Compress_Title;
             button11_Small.Content = MAUIStr.Obj.LuaScript_Title;
             button12_Small.Content = MAUIStr.Obj.Setting_Title;
+            button13_Small.Content = MAUIStr.Obj.Image_Title;
             switch (CurrentPageIndex)
             {
                 case 0:
@@ -238,6 +240,9 @@ namespace PopStudio.Avalonia
                 case 11:
                     SetTitle(MAUIStr.Obj.Setting_Title);
                     break;
+                case 12:
+                    SetTitle(MAUIStr.Obj.Image_Title);
+                    break;
             }
         }
 
@@ -255,6 +260,7 @@ namespace PopStudio.Avalonia
             button10.Foreground = Brushes.Black;
             button11.Foreground = Brushes.Black;
             button12.Foreground = Brushes.Black;
+            button13.Foreground = Brushes.Black;
             button1.Background = Brushes.White;
             button2.Background = Brushes.White;
             button3.Background = Brushes.White;
@@ -267,6 +273,7 @@ namespace PopStudio.Avalonia
             button10.Background = Brushes.White;
             button11.Background = Brushes.White;
             button12.Background = Brushes.White;
+            button13.Background = Brushes.White;
             button1_Small.Background = Brushes.Transparent;
             button2_Small.Background = Brushes.Transparent;
             button3_Small.Background = Brushes.Transparent;
@@ -279,6 +286,7 @@ namespace PopStudio.Avalonia
             button10_Small.Background = Brushes.Transparent;
             button11_Small.Background = Brushes.Transparent;
             button12_Small.Background = Brushes.Transparent;
+            button13_Small.Background = Brushes.Transparent;
         }
 
         void UpButton(Button b)
@@ -308,6 +316,7 @@ namespace PopStudio.Avalonia
         Pages.Control_Compress compress = new Pages.Control_Compress();
         Pages.Control_LuaScript luaScript = new Pages.Control_LuaScript();
         Pages.Control_Setting setting = new Pages.Control_Setting();
+        Pages.Control_Image image = new Pages.Control_Image();
 
         public void LoadHomePage()
         {
@@ -463,6 +472,19 @@ namespace PopStudio.Avalonia
 
         private void Button11_Click(object sender, RoutedEventArgs e) => LoadLuaScript();
 
+        public void LoadImage()
+        {
+            ResetShellButton();
+            UpButton(button13);
+            UpShellButton(button13_Small);
+            LoadPage(image);
+            SetTitle(MAUIStr.Obj.Image_Title);
+            CurrentPageIndex = 12;
+            CloseShellPage();
+        }
+
         private void Button12_Click(object sender, RoutedEventArgs e) => LoadSetting();
+
+        private void Button13_Click(object sender, RoutedEventArgs e) => LoadImage();
     }
 }

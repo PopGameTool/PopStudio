@@ -50,6 +50,7 @@
 							<Button HorizontalAlignment="Center" Height="32" Width="140" FontSize="15" x:Name="button10" Foreground="Black" Margin="15 3 15 3" Background="White" Click="Button10_Click" />
 							<Button HorizontalAlignment="Center" Height="32" Width="140" FontSize="15" x:Name="button11" Foreground="Black" Margin="15 3 15 3" Background="White" Click="Button11_Click" />
 							<Button HorizontalAlignment="Center" Height="32" Width="140" FontSize="15" x:Name="button12" Foreground="Black" Margin="15 3 15 3" Background="White" Click="Button12_Click" />
+							<Button HorizontalAlignment="Center" Height="32" Width="140" FontSize="15" x:Name="button13" Foreground="Black" Margin="15 3 15 3" Background="White" Click="Button13_Click" />
 						</StackPanel>
 					</Grid>
 				</Grid>
@@ -102,6 +103,7 @@
 								<Button Height="32" FontSize="15" x:Name="button10_Small" Foreground="White" Margin="0 1 0 1" Background="Transparent" Cursor="Hand" Click="Button10_Click" />
 								<Button Height="32" FontSize="15" x:Name="button11_Small" Foreground="White" Margin="0 1 0 1" Background="Transparent" Cursor="Hand" Click="Button11_Click" />
 								<Button Height="32" FontSize="15" x:Name="button12_Small" Foreground="White" Margin="0 1 0 1" Background="Transparent" Cursor="Hand" Click="Button12_Click" />
+								<Button Height="32" FontSize="15" x:Name="button13_Small" Foreground="White" Margin="0 1 0 1" Background="Transparent" Cursor="Hand" Click="Button13_Click" />
 							</StackPanel>
 						</Grid>
 					</Grid>

@@ -1,4 +1,5 @@
-﻿using PopStudio.Language.Languages;
+﻿using PopStudio.Image.Convert;
+using PopStudio.Language.Languages;
 using PopStudio.Platform;
 using System.Text;
 
@@ -138,6 +139,15 @@ namespace PopStudio.ConsoleProject
                     break;
                 case CommandCode.EncodeImage_Xnb:
                     YFAPI.EncodeImage(filePath, Path.ChangeExtension(filePath, ".xnb"), 8, ConsoleReader.ReadInt32(GenEncodeImageHelp(MAUIStr.Obj.Console_App_Texture_Format_Ask, 8)));
+                    break;
+                case CommandCode.ImageConvert_TextureToBitmap:
+                    RunImageConvert(filePath, ImageConvertMode.TextureToBitmap);
+                    break;
+                case CommandCode.ImageConvert_BitmapToTexture:
+                    RunImageConvert(filePath, ImageConvertMode.BitmapToTexture);
+                    break;
+                case CommandCode.ImageConvert_BitmapToBitmap:
+                    RunImageConvert(filePath, ImageConvertMode.BitmapToBitmap);
                     break;
                 case CommandCode.Reanim_ToPCCompiled:
                     YFAPI.ParseReanim(filePath, HandleRPTExtension(filePath, ".reanim.compiled"), 0);
@@ -309,6 +319,93 @@ namespace PopStudio.ConsoleProject
             return ex == null ? (Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath)) + "_xfl") : Path.ChangeExtension(filePath, ex);
         }
 
+        /// <summary>
+        /// 批量图片格式转换。输入路径可以是一个文件夹，也可以是一个文件。
+        /// 参数优先从命令行参数里取（ConsoleReader 会自动消费），缺失时转为交互式询问。
+        /// </summary>
+        void RunImageConvert(string filePath, ImageConvertMode mode)
+        {
+            ImageConvertOptions options = new ImageConvertOptions { Mode = mode };
+            if (mode != ImageConvertMode.BitmapToBitmap)
+            {
+                options.Container = ConsoleReader.ReadInt32(GenImageContainerHelp(MAUIStr.Obj.Console_App_ImageConvert_Container_Ask));
+                if (mode == ImageConvertMode.BitmapToTexture)
+                {
+                    ImageContainerInfo info = ImageConvertCatalog.GetContainer(options.Container);
+                    // cdat / ptx(Xbox360) / ptx(PSV) / xnb 不使用 format2，不问了
+                    if (info != null && info.SupportsPixelFormat)
+                    {
+                        options.PixelFormat = ConsoleReader.ReadInt32(GenImagePixelFormatHelp(MAUIStr.Obj.Console_App_Texture_Format_Ask, info));
+                    }
+                }
+            }
+            if (mode != ImageConvertMode.BitmapToTexture)
+            {
+                options.BitmapFormat = (YFBitmapFormat)ConsoleReader.ReadInt32(GenBitmapFormatHelp(MAUIStr.Obj.Console_App_ImageConvert_BitmapFormat_Ask));
+                BitmapFormatInfo bitmapInfo = ImageConvertCatalog.GetBitmapFormat(options.BitmapFormat);
+                if (bitmapInfo != null && bitmapInfo.SupportsQuality)
+                {
+                    // 留空（0）表示沿用默认质量
+                    int quality = ConsoleReader.ReadInt32(MAUIStr.Obj.Console_App_ImageConvert_Quality_Ask);
+                    if (quality > 0) options.JpegQuality = quality;
+                }
+                options.MaxEdge = ConsoleReader.ReadInt32(MAUIStr.Obj.Console_App_ImageConvert_MaxEdge_Ask);
+            }
+            string outputDirectory = ConsoleReader.ReadPath(MAUIStr.Obj.Console_App_ImageConvert_OutDir_Ask);
+            if (string.IsNullOrWhiteSpace(outputDirectory))
+            {
+                string root = Directory.Exists(filePath) ? filePath : Path.GetDirectoryName(filePath);
+                outputDirectory = ImageBatchConverter.GetDefaultOutputDirectory(root);
+                if (string.IsNullOrWhiteSpace(outputDirectory)) outputDirectory = Path.Combine(Directory.GetCurrentDirectory(), "converted");
+            }
+            options.OutputDirectory = outputDirectory;
+            options.IncludeSubdirectories = ConsoleReader.ReadBoolean(MAUIStr.Obj.Console_App_ImageConvert_Recursive_Ask);
+            options.Conflict = ConsoleReader.ReadBoolean(MAUIStr.Obj.Console_App_ImageConvert_Overwrite_Ask) ? ImageConflictPolicy.Overwrite : ImageConflictPolicy.Skip;
+            ConsoleWriter.WriteLine(string.Format(MAUIStr.Obj.Console_App_ImageConvert_OutDir, outputDirectory));
+            ImageConvertResult result = ImageBatchConverter.Convert(new string[] { filePath }, options);
+            ConsoleWriter.WriteLine(string.Format(MAUIStr.Obj.Console_App_ImageConvert_Result, result.Elapsed.TotalSeconds.ToString("F3"), result.Total, result.Succeeded, result.Skipped, result.Failed));
+            for (int i = 0; i < result.Failures.Count; i++)
+            {
+                ConsoleWriter.WriteErrorLine(string.Format(MAUIStr.Obj.Console_App_ImageConvert_Failure, result.Failures[i].InputPath, result.Failures[i].OutputPath ?? "-", result.Failures[i].Message));
+            }
+        }
+
+        string GenImageContainerHelp(string simpleprintinfo)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(simpleprintinfo);
+            IReadOnlyList<ImageContainerInfo> containers = ImageConvertCatalog.Containers;
+            for (int i = 0; i < containers.Count; i++)
+            {
+                sb.AppendLine(string.Format(MAUIStr.Obj.Console_App_CommandIndex_Ask_Formater, containers[i].Index, containers[i].DisplayName));
+            }
+            return sb.ToString();
+        }
+
+        string GenImagePixelFormatHelp(string simpleprintinfo, ImageContainerInfo container)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(simpleprintinfo);
+            IReadOnlyList<ImagePixelFormatInfo> formats = container.PixelFormats;
+            for (int i = 0; i < formats.Count; i++)
+            {
+                sb.AppendLine(string.Format(MAUIStr.Obj.Console_App_Texture_Format_Ask_Formater, formats[i].Index, formats[i].DisplayName));
+            }
+            return sb.ToString();
+        }
+
+        string GenBitmapFormatHelp(string simpleprintinfo)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(simpleprintinfo);
+            IReadOnlyList<BitmapFormatInfo> formats = ImageConvertCatalog.BitmapFormats;
+            for (int i = 0; i < formats.Count; i++)
+            {
+                sb.AppendLine(string.Format(MAUIStr.Obj.Console_App_CommandIndex_Ask_Formater, (int)formats[i].Format, formats[i].DisplayName));
+            }
+            return sb.ToString();
+        }
+
         string GenEncodeImageHelp(string simpleprintinfo, int format)
         {
             StringBuilder sb = new StringBuilder();
@@ -411,6 +508,9 @@ namespace PopStudio.ConsoleProject
                 codeList.Add(CommandCode.SpliceImage_AtlasImageDat);
                 codeList.Add(CommandCode.SpliceImage_TVAtlasXml);
                 codeList.Add(CommandCode.SpliceImage_ResRTON);
+                codeList.Add(CommandCode.ImageConvert_TextureToBitmap);
+                codeList.Add(CommandCode.ImageConvert_BitmapToTexture);
+                codeList.Add(CommandCode.ImageConvert_BitmapToBitmap);
                 if (File.Exists(Path.Combine(filePath, "DOMDocument.xml")))
                 {
                     AddReanimConversions(codeList);
@@ -513,6 +613,12 @@ namespace PopStudio.ConsoleProject
                             case ".png":
                             case ".jpg":
                             case ".gif":
+                                // gif 不在图像格式目录里（位图侧只做 PNG/JPG/BMP），不推荐批量转换
+                                if (!string.Equals(Ex1, ".gif", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    codeList.Add(CommandCode.ImageConvert_BitmapToTexture);
+                                    codeList.Add(CommandCode.ImageConvert_BitmapToBitmap);
+                                }
                                 codeList.Add(CommandCode.CutImage_NewXml);
                                 codeList.Add(CommandCode.CutImage_OldXml);
                                 codeList.Add(CommandCode.CutImage_AncientXml);
@@ -530,26 +636,37 @@ namespace PopStudio.ConsoleProject
                                 codeList.Add(CommandCode.EncodeImage_PtxPSV);
                                 codeList.Add(CommandCode.EncodeImage_Xnb);
                                 break;
+                            case ".jpeg":
+                            case ".bmp":
+                                codeList.Add(CommandCode.ImageConvert_BitmapToTexture);
+                                codeList.Add(CommandCode.ImageConvert_BitmapToBitmap);
+                                break;
                             case ".dds":
+                                codeList.Add(CommandCode.ImageConvert_TextureToBitmap);
                                 codeList.Add(CommandCode.DecodeImage_PtxPS3);
                                 break;
                             case ".ptx":
+                                codeList.Add(CommandCode.ImageConvert_TextureToBitmap);
                                 codeList.Add(CommandCode.DecodeImage_PtxRsb);
                                 codeList.Add(CommandCode.DecodeImage_PtxXbox360);
                                 codeList.Add(CommandCode.DecodeImage_PtxPS3);
                                 codeList.Add(CommandCode.DecodeImage_PtxPSV);
                                 break;
                             case ".cdat":
+                                codeList.Add(CommandCode.ImageConvert_TextureToBitmap);
                                 codeList.Add(CommandCode.DecodeImage_Cdat);
                                 break;
                             case ".tex":
+                                codeList.Add(CommandCode.ImageConvert_TextureToBitmap);
                                 codeList.Add(CommandCode.DecodeImage_TexiOS);
                                 codeList.Add(CommandCode.DecodeImage_TexTV);
                                 break;
                             case ".txz":
+                                codeList.Add(CommandCode.ImageConvert_TextureToBitmap);
                                 codeList.Add(CommandCode.DecodeImage_Txz);
                                 break;
                             case ".xnb":
+                                codeList.Add(CommandCode.ImageConvert_TextureToBitmap);
                                 codeList.Add(CommandCode.DecodeImage_Xnb);
                                 codeList.Add(CommandCode.Reanim_ToPCCompiled);
                                 codeList.Add(CommandCode.Reanim_ToPhone32Compiled);
@@ -692,6 +809,9 @@ namespace PopStudio.ConsoleProject
                     CommandCode.EncodeImage_PtxPS3 => MAUIStr.Obj.Console_App_CommandIndex_EncodeImage_PtxPS3,
                     CommandCode.EncodeImage_PtxPSV => MAUIStr.Obj.Console_App_CommandIndex_EncodeImage_PtxPSV,
                     CommandCode.EncodeImage_Xnb => MAUIStr.Obj.Console_App_CommandIndex_EncodeImage_Xnb,
+                    CommandCode.ImageConvert_TextureToBitmap => MAUIStr.Obj.Console_App_CommandIndex_ImageConvert_TextureToBitmap,
+                    CommandCode.ImageConvert_BitmapToTexture => MAUIStr.Obj.Console_App_CommandIndex_ImageConvert_BitmapToTexture,
+                    CommandCode.ImageConvert_BitmapToBitmap => MAUIStr.Obj.Console_App_CommandIndex_ImageConvert_BitmapToBitmap,
                     CommandCode.Reanim_ToPCCompiled => MAUIStr.Obj.Console_App_CommandIndex_Reanim_ToPCCompiled,
                     CommandCode.Reanim_ToPhone32Compiled => MAUIStr.Obj.Console_App_CommandIndex_Reanim_ToPhone32Compiled,
                     CommandCode.Reanim_ToPhone64Compiled => MAUIStr.Obj.Console_App_CommandIndex_Reanim_ToPhone64Compiled,
@@ -851,7 +971,10 @@ namespace PopStudio.ConsoleProject
             Compress_Bzip2, // 对文件进行Bzip2压缩
             LoadSetting = 300, // 加载设置
             LoadImageConvertXml,
-            RunScript = 320 // 执行lua脚本
+            RunScript = 320, // 执行lua脚本
+            ImageConvert_TextureToBitmap = 340, // 批量把纹理图像转为位图
+            ImageConvert_BitmapToTexture, // 批量把位图转为纹理图像
+            ImageConvert_BitmapToBitmap // 批量把位图转为位图
         }
     }
 }

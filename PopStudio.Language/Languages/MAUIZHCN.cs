@@ -124,6 +124,19 @@
         public string Console_App_Atlas_Height_Ask => "请输入图集图像高度";
         public string Console_App_Texture_Format_Ask => "请输入图像格式";
         public string Console_App_Texture_Format_Ask_Formater => "输入{0}以{1}格式编码";
+        public string Console_App_CommandIndex_ImageConvert_TextureToBitmap => "批量把纹理图像转为位图";
+        public string Console_App_CommandIndex_ImageConvert_BitmapToTexture => "批量把位图转为纹理图像";
+        public string Console_App_CommandIndex_ImageConvert_BitmapToBitmap => "批量把位图转为位图";
+        public string Console_App_ImageConvert_Container_Ask => "请输入纹理容器的序号";
+        public string Console_App_ImageConvert_BitmapFormat_Ask => "请输入位图格式的序号";
+        public string Console_App_ImageConvert_Quality_Ask => "请输入JPG质量（1-100）";
+        public string Console_App_ImageConvert_MaxEdge_Ask => "请输入最大边长（留空则保持原尺寸）";
+        public string Console_App_ImageConvert_OutDir_Ask => "请输入输出文件夹路径（留空则使用默认值）";
+        public string Console_App_ImageConvert_Recursive_Ask => "是否转换子文件夹里的文件";
+        public string Console_App_ImageConvert_Overwrite_Ask => "是否覆盖已存在的文件";
+        public string Console_App_ImageConvert_OutDir => "输出文件夹为{0}";
+        public string Console_App_ImageConvert_Result => "转换完成，用时{0}秒：共{1}个，成功{2}个，跳过{3}个，失败{4}个";
+        public string Console_App_ImageConvert_Failure => "失败：{0} -> {1} : {2}";
         public string Console_NoCommand => "没有指令{0}！";
 
         //Article
@@ -247,6 +260,32 @@
         public string Texture_Choose5_Batch => "请填写编码生成特殊图像文件夹路径";
         public string Texture_Choose6_Batch => "请选择编码模式";
         public string Texture_Choose7_Batch => "请选择编码格式";
+
+        //Image
+        public string Image_Title => "PNG/JPG互转";
+        public string Image_Introduction => "批量在 PNG / JPG / BMP 之间互转，可设置 JPG 质量与等比缩放。纹理容器与位图之间的批量转换请使用纹理页或 Lua 脚本。";
+        public string Image_DropConvert_Ask => "将{0}个文件转换为{1}并保存到原文件所在目录？";
+        public string Image_DropConvert_OK => "转换";
+        public string Image_Input => "待转换的文件夹或文件路径";
+        public string Image_InputFile => "选择文件";
+        public string Image_InputFolder => "选择文件夹";
+        public string Image_InputCount => "已选择{0}个文件";
+        public string Image_BitmapFormat => "输出格式";
+        public string Image_JpegQuality => "JPEG质量(1-100)";
+        public string Image_MaxEdge => "最大边长(0为不缩放)";
+        public string Image_Recursive => "包含子文件夹";
+        public string Image_OutputDir => "输出文件夹路径";
+        public string Image_Layout => "输出目录结构";
+        public string Image_Layout0 => "保留原目录结构";
+        public string Image_Layout1 => "全部平铺";
+        public string Image_Overwrite => "覆盖已存在文件";
+        public string Image_Cancel => "取消";
+        public string Image_Cancelled => "已取消";
+        public string Image_Running => "正在转换 {0}/{1}...";
+        public string Image_Result => "转换完成，用时{0}秒：成功{1}个，跳过{2}个，失败{3}个";
+        public string Image_Failures => "失败清单";
+        public string Image_NeedInput => "请选择待转换的文件或文件夹";
+        public string Image_InvalidParams => "转换参数不合法";
 
         //Pam
         public string Pam_Title => "Pam转码";

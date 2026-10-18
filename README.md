@@ -25,6 +25,7 @@ decode and encode cdat(including Android and iOS)
 decode and encode tex(including Android and iOS)  
 decode and encode txz(including Android and iOS)  
 decode and encode xnb(including WindowsPhone)  
+batch convert images between PNG/JPG/BMP, with JPEG quality, proportional downscaling and a failure list; drag images onto the page to convert them in place; bitmap↔texture container conversion is available as `rainy.decodeimages` / `rainy.encodeimages` / `rainy.convertbitmaps` and as console commands `340` / `341` / `342`  
 decode and encode reanim.compiled(including Windows, MacOS, Android, iOS, WindowsPhone, PS3, PSV and Xbox360)  
 convert reanim formats to and from unpacked XFL projects and modern ZIP-based FLA files
 
@@ -80,6 +81,7 @@ Lua/API 的图像格式编号 `6` 同时支持 DDS 和 PS3 PTX，编码子格式
 解码编码tex（包括Android，iOS）  
 解码编码txz（包括Android，iOS）  
 解码编码xnb（包括WindowsPhone）  
+批量在PNG/JPG/BMP之间互转，支持JPG质量、等比缩小与失败清单；把图片拖到页面上即可就地转换；位图与纹理容器之间的转换通过 `rainy.decodeimages` / `rainy.encodeimages` / `rainy.convertbitmaps` 以及控制台命令 `340` / `341` / `342` 完成  
 解码编码reanim.compiled(包括Windows，MacOS，Android，iOS，WindowsPhone，PS3，PSV和Xbox360)  
 在未打包的XFL工程、现代ZIP型FLA文件与任意已支持的reanim格式之间转换
 

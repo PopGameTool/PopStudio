@@ -72,6 +72,11 @@ namespace PopStudio.MAUI
                 Index = 12,
                 Title = fitem_setting.Title = MAUIStr.Obj.Setting_Title
             });
+            mItem.Add(new FlyoutPageItem
+            {
+                Index = 13,
+                Title = fitem_image.Title = MAUIStr.Obj.Image_Title
+            });
             collectionView.ItemsSource = mItem;
             collectionView.SelectedItem = mItem[mIndex];
         }
@@ -121,6 +126,7 @@ namespace PopStudio.MAUI
                     10 => fitem_compress,
                     11 => fitem_luascript,
                     12 => fitem_setting,
+                    13 => fitem_image,
                     _ => fitem_homepage
                 };
                 FlyoutIsPresented = false;

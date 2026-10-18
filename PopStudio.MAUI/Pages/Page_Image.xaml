@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PopStudio.MAUI.Page_Image">
+    <ScrollView BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
+        <StackLayout Orientation="Vertical" Margin="30,24,30,24" Spacing="10">
+            <Label x:Name="label_introduction" FontSize="16"/>
+            <Label x:Name="label_input" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Entry x:Name="textbox_input" />
+                <Button x:Name="button_inputfile" Grid.Column="2" Clicked="ButtonInputFile_Clicked" />
+                <Button x:Name="button_inputfolder" Grid.Column="4" Clicked="ButtonInputFolder_Clicked" />
+            </Grid>
+            <StackLayout x:Name="SP_Bitmap">
+                <Label x:Name="label_bitmap" />
+                <Picker x:Name="CB_Bitmap" SelectedIndexChanged="CB_Bitmap_Selected" />
+            </StackLayout>
+            <StackLayout x:Name="SP_Quality">
+                <Label x:Name="label_quality" />
+                <Entry x:Name="textbox_quality" Keyboard="Numeric" />
+            </StackLayout>
+            <StackLayout x:Name="SP_MaxEdge">
+                <Label x:Name="label_maxedge" />
+                <Entry x:Name="textbox_maxedge" Keyboard="Numeric" />
+            </StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="label_recursive" VerticalOptions="Center" />
+                <Switch x:Name="TB_Recursive" Grid.Column="1" />
+            </Grid>
+            <Label x:Name="label_outdir" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Entry x:Name="textbox_outdir" />
+                <Button x:Name="button_outdir" Grid.Column="2" Clicked="ButtonOutDir_Clicked" />
+            </Grid>
+            <StackLayout x:Name="SP_Layout">
+                <Label x:Name="label_layout" />
+                <Picker x:Name="CB_Layout" />
+            </StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="label_overwrite" VerticalOptions="Center" />
+                <Switch x:Name="TB_Overwrite" Grid.Column="1" />
+            </Grid>
+            <Button x:Name="button_run" Clicked="ButtonRun_Clicked" />
+            <Label x:Name="label_statue" />
+            <Label x:Name="label_failures" />
+            <Editor x:Name="textbox_failures" IsReadOnly="True" HeightRequest="140" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,83 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PopStudio.Avalonia.Pages.Control_Image">
+	<ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto">
+		<StackPanel Orientation="Vertical" Margin="30,24,30,24">
+			<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" x:Name="label_introduction" FontSize="16"/>
+			<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="20" x:Name="label_input" />
+			<Grid Margin="0 5 0 5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="1*" />
+					<ColumnDefinition Width="15*" />
+					<ColumnDefinition Width="1*" />
+					<ColumnDefinition Width="15*" />
+				</Grid.ColumnDefinitions>
+				<TextBox x:Name="textbox_input" />
+				<Button x:Name="button_inputfile" Grid.Column="2" Click="ButtonInputFile_Click" />
+				<Button x:Name="button_inputfolder" Grid.Column="4" Click="ButtonInputFolder_Click" />
+			</Grid>
+			<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="16" x:Name="label_inputcount" />
+			<StackPanel x:Name="SP_Bitmap">
+				<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="20" x:Name="label_bitmap" />
+				<ComboBox Margin="0 5 0 5" FontSize="16" x:Name="CB_Bitmap" />
+			</StackPanel>
+			<StackPanel x:Name="SP_Quality">
+				<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="20" x:Name="label_quality" />
+				<TextBox Margin="0 5 0 5" FontSize="16" x:Name="textbox_quality" />
+			</StackPanel>
+			<StackPanel x:Name="SP_MaxEdge">
+				<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="20" x:Name="label_maxedge" />
+				<TextBox Margin="0 5 0 5" FontSize="16" x:Name="textbox_maxedge" />
+			</StackPanel>
+			<Grid HorizontalAlignment="Left" Margin="0 5 0 5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock FontSize="20" x:Name="label_recursive" VerticalAlignment="Center" />
+				<ToggleSwitch x:Name="TB_Recursive" Grid.Column="1" />
+			</Grid>
+			<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="20" x:Name="label_outdir" />
+			<Grid Margin="0 5 0 5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="1*" />
+					<ColumnDefinition Width="15*" />
+				</Grid.ColumnDefinitions>
+				<TextBox x:Name="textbox_outdir" />
+				<Button x:Name="button_outdir" Grid.Column="2" Click="ButtonOutDir_Click" />
+			</Grid>
+			<StackPanel x:Name="SP_Layout">
+				<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="20" x:Name="label_layout" />
+				<ComboBox Margin="0 5 0 5" FontSize="16" x:Name="CB_Layout" />
+			</StackPanel>
+			<Grid HorizontalAlignment="Left" Margin="0 5 0 5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock FontSize="20" x:Name="label_overwrite" VerticalAlignment="Center" />
+				<ToggleSwitch x:Name="TB_Overwrite" Grid.Column="1" />
+			</Grid>
+			<Grid Margin="0 5 0 5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="50*" />
+					<ColumnDefinition Width="1*" />
+					<ColumnDefinition Width="15*" />
+				</Grid.ColumnDefinitions>
+				<Button x:Name="button_run" Click="ButtonRun_Click" />
+				<Button x:Name="button_cancel" Grid.Column="2" Click="ButtonCancel_Click" IsEnabled="False" />
+			</Grid>
+			<ProgressBar Margin="0 5 0 5" Height="8" Minimum="0" Maximum="100" x:Name="progress" />
+			<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="20" x:Name="label_statue" />
+			<TextBlock TextWrapping="Wrap" Margin="0 5 0 5" FontSize="20" x:Name="label_failures" />
+			<TextBox Margin="0 5 0 5" FontSize="12" Height="140" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" x:Name="textbox_failures" />
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

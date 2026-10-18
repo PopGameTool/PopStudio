@@ -3,6 +3,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using PopStudio.Language.Languages;
+using PopStudio.Image.Convert;
 using System.Diagnostics;
 using PopStudio.Platform;
 
@@ -264,12 +265,16 @@ namespace PopStudio.Avalonia.Pages
                             7 => ".ptx",
                             8 => ".xnb",
                             _ => null
-                        }) : ".png";
-                        int rightFormatLength = rightFormat.Length;
+                        }) : null;
+                        int rightFormatLength = rightFormat == null ? 0 : rightFormat.Length;
                         foreach (string mfile in files)
                         {
                             bool isDds = !mode && cmode == 6 && Path.GetExtension(mfile).Equals(".dds", StringComparison.OrdinalIgnoreCase);
-                            if (!isDds && (mfile.Length < rightFormatLength || mfile[^rightFormatLength..].ToLower() != rightFormat))
+                            // 编码模式的输入是位图，PNG/JPG/BMP 底层都能读；只认 .png 会把一批 JPG 静默跳过
+                            bool matched = mode
+                                ? ImageConvertCatalog.IsBitmapInput(mfile)
+                                : (rightFormatLength > 0 && mfile.Length >= rightFormatLength && mfile[^rightFormatLength..].ToLower() == rightFormat);
+                            if (!isDds && !matched)
                             {
                                 continue;
                             }

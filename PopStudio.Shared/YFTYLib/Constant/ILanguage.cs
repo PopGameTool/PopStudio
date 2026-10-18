@@ -12,6 +12,9 @@
         public string XmemCompressInvalid { get; }
         public string UnknownFormat { get; }
 
+        public string TextureSizeLimit { get; }
+        public string ImageTooLarge { get; }
+
         public string TypeMisMatch { get; }
 
         public string EncryptPSVPak { get; }

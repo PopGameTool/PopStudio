@@ -1,4 +1,6 @@
-﻿using PopStudio.Platform;
+﻿using MoonSharp.Interpreter;
+using PopStudio.Image.Convert;
+using PopStudio.Platform;
 
 namespace PopStudio.LuaScript
 {
@@ -799,6 +801,195 @@ namespace PopStudio.LuaScript
                 else Print(ex.Message);
                 return null;
             }
+        }
+
+        /// <summary>
+        /// rainy.decodeimages(input, outdir, container[, recursive[, overwrite]])
+        /// </summary>
+        public static Table DecodeImages(params object[] args)
+        {
+            try
+            {
+                List<string> inputs = new List<string>();
+                AddPath(args.Length > 0 ? args[0] : null, inputs);
+                ImageConvertOptions options = new ImageConvertOptions
+                {
+                    Mode = ImageConvertMode.TextureToBitmap,
+                    Container = ArgInt(args, 2, -1),
+                    OutputDirectory = ArgString(args, 1),
+                    IncludeSubdirectories = ArgBool(args, 3, true),
+                    Conflict = ArgBool(args, 4, false) ? ImageConflictPolicy.Overwrite : ImageConflictPolicy.Skip
+                };
+                return BuildResult(ImageBatchConverter.Convert(inputs, options));
+            }
+            catch (Exception ex)
+            {
+                if (Script.luavm.ErrorThrow) throw;
+                else Print(ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// rainy.encodeimages(input, outdir, container, pixelFormat[, recursive[, overwrite]])
+        /// pixelFormat 是像素格式列表的下标，不是标签里括号中的数字
+        /// </summary>
+        public static Table EncodeImages(params object[] args)
+        {
+            try
+            {
+                List<string> inputs = new List<string>();
+                AddPath(args.Length > 0 ? args[0] : null, inputs);
+                ImageConvertOptions options = new ImageConvertOptions
+                {
+                    Mode = ImageConvertMode.BitmapToTexture,
+                    Container = ArgInt(args, 2, -1),
+                    PixelFormat = ArgInt(args, 3, 0),
+                    OutputDirectory = ArgString(args, 1),
+                    IncludeSubdirectories = ArgBool(args, 4, true),
+                    Conflict = ArgBool(args, 5, false) ? ImageConflictPolicy.Overwrite : ImageConflictPolicy.Skip
+                };
+                return BuildResult(ImageBatchConverter.Convert(inputs, options));
+            }
+            catch (Exception ex)
+            {
+                if (Script.luavm.ErrorThrow) throw;
+                else Print(ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// rainy.convertbitmaps(input, outdir, bitmapFormat[, quality[, maxEdge[, recursive[, overwrite]]]])
+        /// bitmapFormat 收 0/1/2 或 "png"/"jpg"/"bmp"
+        /// </summary>
+        public static Table ConvertBitmaps(params object[] args)
+        {
+            try
+            {
+                List<string> inputs = new List<string>();
+                AddPath(args.Length > 0 ? args[0] : null, inputs);
+                YFBitmapFormat format = YFBitmapFormat.Png;
+                object rawFormat = args.Length > 2 ? args[2] : null;
+                if (rawFormat != null && !TryParseBitmapFormat(rawFormat, out format)) throw new Exception(Str.Obj.UnknownFormat);
+                ImageConvertOptions options = new ImageConvertOptions
+                {
+                    Mode = ImageConvertMode.BitmapToBitmap,
+                    OutputDirectory = ArgString(args, 1),
+                    BitmapFormat = format,
+                    JpegQuality = ArgInt(args, 3, 90),
+                    MaxEdge = ArgInt(args, 4, 0),
+                    IncludeSubdirectories = ArgBool(args, 5, true),
+                    Conflict = ArgBool(args, 6, false) ? ImageConflictPolicy.Overwrite : ImageConflictPolicy.Skip
+                };
+                return BuildResult(ImageBatchConverter.Convert(inputs, options));
+            }
+            catch (Exception ex)
+            {
+                if (Script.luavm.ErrorThrow) throw;
+                else Print(ex.Message);
+                return null;
+            }
+        }
+
+        /// <summary>输入可以是单个路径字符串，也可以是路径的数组</summary>
+        static void AddPath(object value, List<string> paths)
+        {
+            if (value is Table table)
+            {
+                long length = table.Length;
+                for (long i = 1; i <= length; i++)
+                {
+                    string item = table.Get((int)i)?.ToString();
+                    if (!string.IsNullOrWhiteSpace(item)) paths.Add(item);
+                }
+                return;
+            }
+            string path = value?.ToString();
+            if (!string.IsNullOrWhiteSpace(path)) paths.Add(path);
+        }
+
+        static int ArgInt(object[] args, int index, int fallback)
+        {
+            if (args == null || index >= args.Length || args[index] == null) return fallback;
+            try
+            {
+                return Convert.ToInt32(args[index]);
+            }
+            catch (Exception)
+            {
+                return fallback;
+            }
+        }
+
+        static string ArgString(object[] args, int index)
+        {
+            if (args == null || index >= args.Length || args[index] == null) return null;
+            string value = args[index].ToString();
+            return string.IsNullOrWhiteSpace(value) ? null : value;
+        }
+
+        static bool ArgBool(object[] args, int index, bool fallback)
+        {
+            if (args == null || index >= args.Length || args[index] == null) return fallback;
+            if (args[index] is bool value) return value;
+            try
+            {
+                return Convert.ToInt32(args[index]) != 0;
+            }
+            catch (Exception)
+            {
+                return fallback;
+            }
+        }
+
+        static bool TryParseBitmapFormat(object value, out YFBitmapFormat format)
+        {
+            format = YFBitmapFormat.Png;
+            if (value == null) return false;
+            if (value is string text)
+            {
+                BitmapFormatInfo info = ImageConvertCatalog.GetBitmapFormat(text.StartsWith(".") ? text : "." + text);
+                if (info == null) return false;
+                format = info.Format;
+                return true;
+            }
+            int index;
+            try
+            {
+                index = Convert.ToInt32(value);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            if (ImageConvertCatalog.GetBitmapFormat((YFBitmapFormat)index) == null) return false;
+            format = (YFBitmapFormat)index;
+            return true;
+        }
+
+        static Table BuildResult(ImageConvertResult result)
+        {
+            if (result == null) return null;
+            Table ans = new Table(Script.luavm);
+            ans["total"] = DynValue.NewNumber(result.Total);
+            ans["success"] = DynValue.NewNumber(result.Succeeded);
+            ans["skipped"] = DynValue.NewNumber(result.Skipped);
+            ans["failed"] = DynValue.NewNumber(result.Failed);
+            ans["cancelled"] = DynValue.NewBoolean(result.Cancelled);
+            ans["time"] = DynValue.NewNumber(result.Elapsed.TotalSeconds);
+            Table failures = new Table(Script.luavm);
+            IReadOnlyList<ImageConvertFailure> list = result.Failures;
+            for (int i = 0; i < list.Count; i++)
+            {
+                Table item = new Table(Script.luavm);
+                item["input"] = DynValue.NewString(list[i].InputPath ?? string.Empty);
+                item["output"] = DynValue.NewString(list[i].OutputPath ?? string.Empty);
+                item["message"] = DynValue.NewString(list[i].Message ?? string.Empty);
+                failures[i + 1] = item;
+            }
+            ans["failures"] = failures;
+            return ans;
         }
     }
 }
